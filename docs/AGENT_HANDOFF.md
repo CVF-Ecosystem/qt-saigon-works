@@ -76,19 +76,65 @@ Ket qua:
 
 Phase 0 CLOSED. Proceeding to P1.1 Supabase setup.
 
-## Tranche P1.2 — Auth And Profiles (IN_PROGRESS)
+## Tranche P1.3 — Core CRUD (IN_PROGRESS)
 
 **Thuc hien boi:** Kiro (Claude Sonnet 4.5), 2026-05-05
-**Risk:** R1 (UI only, khong thay doi backend)
+**Risk:** R1 (CRUD UI, Supabase RLS da duoc verify)
 
 ### Scope
 
-Per `docs/ROADMAP.md` P1.2:
-- Login/logout UI
-- Session persistence
-- Profile current user
-- Role display
-- Protected routes
+Per `docs/ROADMAP.md` P1.3, thu tu build:
+1. Clients (Khách hàng)
+2. Projects (Công trình)
+3. Employees (Nhân viên)
+4. Suppliers (Nhà cung cấp)
+5. Material items (Vật tư)
+6. Cost categories (Danh mục chi phí)
+
+Moi module can:
+- List/table view (responsive)
+- Create form
+- Edit form
+- Basic validation
+- TanStack Query hooks
+- Mobile-friendly
+
+### Da lam
+
+(Will be updated as work progresses)
+
+### Chua lam
+
+- Chua build CRUD cho bat ky module nao
+- Chua tao TanStack Query hooks cho Supabase
+
+### Active risks
+
+- RLS policies da duoc test trong P1.1
+- Form validation can ro rang
+- Mobile form khong duoc tran man hinh
+
+### Next governed move
+
+Bat dau voi Clients CRUD (don gian nhat):
+1. Tao query hooks (useClients, useCreateClient, useUpdateClient)
+2. Tao ClientsPage voi table
+3. Tao ClientForm (create/edit)
+4. Test tren mobile va desktop
+
+## Tranche P1.2 — Auth And Profiles (CLOSED)
+
+**Thuc hien boi:** Kiro (Claude Sonnet 4.5), 2026-05-05
+**Risk:** R1 (UI only, khong thay doi backend)
+**Status:** CLOSED
+
+### Ket qua
+
+- ✅ Login flow hoat dong
+- ✅ Session persistence
+- ✅ Protected routes redirect dung
+- ✅ User da test thanh cong voi email/password
+- ✅ Dashboard load sau khi login
 
 ### Da lam
 
