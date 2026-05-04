@@ -1,6 +1,21 @@
 # QT Sai Gon Works - Agent Handoff
 
-Cap nhat: 2026-05-04 (Phase 0 IMPLEMENTED / READY_FOR_REVIEW, chua CLOSED vi chua commit)
+Cap nhat: 2026-05-05 (Phase 0 CLOSED, Phase 1 IN_PROGRESS)
+
+## Phase 0 Closure — 2026-05-05
+
+**Closed by:** Kiro (Claude Sonnet 4.5)
+**Risk:** R1
+**Status:** CLOSED
+
+Phase 0 artifacts committed in `ac35f75`. Foundation locked:
+- Responsive app shell with desktop sidebar + mobile bottom nav
+- Reusable UI primitives (PageHeader, MetricCard, DataPanel, ResponsiveTable, StatusBadge, MobileDetailSheet)
+- Playwright viewport tests: 25/25 PASSING across 5 breakpoints
+- `npm run build` PASS
+- No horizontal overflow, touch targets ≥44px verified
+
+Phase 0 meets all acceptance criteria from `docs/ROADMAP.md`. Ready for P1.1 Supabase setup.
 
 ## Codex review pass — Phase 0 quality check
 
@@ -59,11 +74,73 @@ Ket qua:
 
 ### Next governed move
 
-1. Review screenshot artifacts neu can.
-2. Commit Phase 0 artifacts.
-3. Sau commit moi chuyen sang P1.1 Supabase setup docs/seed hoac mo mot tranche review nho cho UI polish.
+Phase 0 CLOSED. Proceeding to P1.1 Supabase setup.
 
-## Tranche P0.1 — Responsive App Shell (IN_PROGRESS)
+## Tranche P1.1 — Supabase Project Setup (IN_PROGRESS)
+
+**Thuc hien boi:** Kiro (Claude Sonnet 4.5), 2026-05-05
+**Risk:** R2 (external service, credentials, RLS policy)
+
+### Scope
+
+Per `docs/ROADMAP.md` P1.1:
+- Huong dan tao Supabase project
+- Chay migration `supabase/migrations/0001_initial_schema.sql`
+- Tao bucket `project-documents`
+- Tao `.env.local` tu `.env.example` (local-only, khong commit)
+- Seed data toi thieu cho QT Sai Gon
+- Tao owner profile dau tien voi `company_id`
+- Dam bao RLS bat tren bang nghiep vu va loc theo `company_id`
+
+### Da lam
+
+- ✅ Tao `docs/SUPABASE_SETUP.md` - huong dan day du 10 buoc setup Supabase
+- ✅ Tao `supabase/seed.sql` - seed data mau cho clients, projects, employees, suppliers, materials, costs, payments, attendance, material requests
+- ✅ Verify `.env.example` co day du 3 bien can thiet
+- ✅ Verify `.gitignore` da chua `.env.local` de tranh commit secrets
+- ✅ Verify `src/lib/supabase.ts` da co `isSupabaseConfigured` check
+- ✅ Review migration `0001_initial_schema.sql`:
+  - RLS enabled tren tat ca 19 bang nghiep vu
+  - Helper functions `current_company_id()` va `current_app_role()`
+  - Policies loc theo `company_id` cho bang co `company_id` truc tiep
+  - Policies loc qua `projects` cho bang con (phases, boq_items, costs, material_requests, etc.)
+  - Policies loc qua `purchase_orders` cho `purchase_order_items`
+  - Policies loc qua `journal_entries` cho `journal_lines`
+  - Seed QT Sai Gon company (`00000000-0000-0000-0000-000000000001`)
+  - Seed 5 cost categories mac dinh
+
+### Chua lam
+
+- Cho user tao Supabase project va cung cap URL/anon key
+- Cho user chay migration theo huong dan
+- Cho user tao bucket `project-documents` va storage policies
+- Cho user tao owner user dau tien
+- Cho user chay seed data (tuy chon)
+- Tao `.env.local` khi user da co credentials
+
+### Active risks
+
+- Supabase credentials phai duoc bao ve: khong commit, khong in raw key trong log/docs
+- RLS phai bat ngay tu dau tren cac bang nghiep vu
+- `.env.local` phai nam trong `.gitignore`
+
+### Next governed move
+
+**WAITING FOR USER INPUT (R2 gate):**
+
+User can tao Supabase project theo `docs/SUPABASE_SETUP.md` va cung cap:
+1. `VITE_SUPABASE_URL`
+2. `VITE_SUPABASE_ANON_KEY`
+
+Sau khi user cung cap credentials, agent se:
+1. Tao `.env.local` voi credentials (local-only, khong commit)
+2. Verify connection
+3. Huong dan user tao owner profile dau tien
+4. Chuyen sang P1.2 Auth UI
+
+**Hoac** user co the tu lam theo huong dan va bao agent khi da setup xong.
+
+## Tranche P0.1 — Responsive App Shell (CLOSED)
 
 **Thuc hien boi:** Claude Sonnet 4.6, 2026-05-04
 **Risk:** R1
