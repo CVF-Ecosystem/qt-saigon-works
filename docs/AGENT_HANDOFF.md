@@ -76,7 +76,69 @@ Ket qua:
 
 Phase 0 CLOSED. Proceeding to P1.1 Supabase setup.
 
-## Tranche P1.1 — Supabase Project Setup (IN_PROGRESS)
+## Tranche P1.2 — Auth And Profiles (IN_PROGRESS)
+
+**Thuc hien boi:** Kiro (Claude Sonnet 4.5), 2026-05-05
+**Risk:** R1 (UI only, khong thay doi backend)
+
+### Scope
+
+Per `docs/ROADMAP.md` P1.2:
+- Login/logout UI
+- Session persistence
+- Profile current user
+- Role display
+- Protected routes
+
+### Da lam
+
+- ✅ Tao `src/lib/auth.tsx` - AuthContext va AuthProvider
+  - useAuth hook
+  - signIn/signOut functions
+  - Profile loading tu Supabase
+  - Session persistence
+- ✅ Tao `src/pages/LoginPage.tsx` - Login form responsive
+  - Email/password inputs
+  - Error handling
+  - Loading state
+  - Dark theme khop voi app
+- ✅ Tao `src/components/layout/ProtectedRoute.tsx` - Route guard
+  - Redirect to /login neu chua auth
+  - Loading spinner
+- ✅ Update `src/components/layout/Sidebar.tsx` - Profile display + logout
+  - Hien thi full_name va role
+  - Logout button
+  - Role labels tieng Viet
+- ✅ Update `src/App.tsx` - AuthProvider va protected routes
+  - Wrap app voi AuthProvider
+  - /login route public
+  - Tat ca routes khac protected
+- ✅ `npm run build` PASS
+
+### Chua lam
+
+- Chua test login flow
+- Chua test logout
+- Chua test protected route redirect
+
+### Active risks
+
+- Supabase RLS policies da duoc test trong P1.1
+- Profile load dua vao `active = true` filter
+
+### Next governed move
+
+Test login flow:
+1. Refresh browser tai http://127.0.0.1:5179
+2. Nen redirect sang /login
+3. Dang nhap voi email/password da tao
+4. Nen redirect ve dashboard
+5. Thay profile + logout button trong sidebar
+6. Test logout
+
+Neu pass, P1.2 CLOSED, chuyen sang P1.3 Core CRUD.
+
+## Tranche P1.1 — Supabase Project Setup (CLOSED)
 
 **Thuc hien boi:** Kiro (Claude Sonnet 4.5), 2026-05-05
 **Risk:** R2 (external service, credentials, RLS policy)
