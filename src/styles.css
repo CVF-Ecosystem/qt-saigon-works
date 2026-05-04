@@ -1,0 +1,377 @@
+:root {
+  color: #111827;
+  background: #f4f7fb;
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.app-shell {
+  min-height: 100vh;
+}
+
+.topbar {
+  align-items: center;
+  background: #0f172a;
+  color: #ffffff;
+  display: flex;
+  gap: 24px;
+  justify-content: space-between;
+  min-height: 88px;
+  padding: 18px clamp(20px, 4vw, 56px);
+}
+
+.topbar h1,
+.topbar p {
+  margin: 0;
+}
+
+.topbar h1 {
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+.topbar nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.topbar a {
+  background: rgba(255, 255, 255, 0.09);
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 8px;
+  font-weight: 700;
+  padding: 10px 14px;
+}
+
+.eyebrow {
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0;
+  margin: 0 0 8px;
+  text-transform: uppercase;
+}
+
+.topbar .eyebrow,
+.hero .eyebrow {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.hero {
+  background:
+    linear-gradient(120deg, rgba(15, 118, 110, 0.96), rgba(30, 64, 175, 0.95)),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='520' viewBox='0 0 1200 520'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='.18' stroke-width='2'%3E%3Cpath d='M0 390h1200M0 322h1200M120 520V180m180 340V96m210 424V150m240 370V82m220 438V142'/%3E%3Cpath d='M86 390l210-136 166 62 212-172 198 74 248-154'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: cover;
+  color: #ffffff;
+  display: grid;
+  gap: 28px;
+  grid-template-columns: minmax(0, 1.4fr) minmax(320px, 0.6fr);
+  margin: 32px auto 22px;
+  max-width: 1530px;
+  padding: clamp(28px, 5vw, 54px);
+  width: calc(100% - 40px);
+}
+
+.hero h2 {
+  font-size: clamp(34px, 5vw, 62px);
+  line-height: 1.04;
+  margin: 0 0 22px;
+  max-width: 920px;
+}
+
+.hero p {
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 19px;
+  line-height: 1.65;
+  margin: 0;
+  max-width: 760px;
+}
+
+.health-card {
+  align-self: center;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.23);
+  border-radius: 8px;
+  display: grid;
+  gap: 16px;
+  padding: 24px;
+}
+
+.health-card strong {
+  font-size: 26px;
+}
+
+.status,
+.pill {
+  align-items: center;
+  border-radius: 999px;
+  display: inline-flex;
+  font-size: 12px;
+  font-weight: 800;
+  justify-content: center;
+  padding: 7px 10px;
+  text-transform: uppercase;
+  width: max-content;
+}
+
+.status.good,
+.pill.paid,
+.pill.delivered {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status.warn,
+.pill.pending,
+.pill.review {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.status.neutral {
+  background: #e0f2fe;
+  color: #075985;
+}
+
+.pill.approved,
+.pill.ordered {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.pill.draft {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.metrics,
+.section-grid,
+.split {
+  margin: 0 auto 28px;
+  max-width: 1530px;
+  width: calc(100% - 40px);
+}
+
+.metrics {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.metric,
+.panel,
+.project-list {
+  background: #ffffff;
+  border: 1px solid #dbe3ef;
+  border-radius: 8px;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.07);
+}
+
+.metric {
+  display: grid;
+  gap: 10px;
+  padding: 24px;
+}
+
+.metric span {
+  color: #64748b;
+  font-weight: 700;
+}
+
+.metric strong {
+  color: #0f172a;
+  font-size: 32px;
+  line-height: 1;
+}
+
+.metric.positive strong {
+  color: #047857;
+}
+
+.section-heading,
+.panel-heading {
+  margin: 0 0 16px;
+}
+
+.section-heading h2,
+.panel-heading h2 {
+  font-size: 28px;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.project-list,
+.panel {
+  padding: 18px;
+}
+
+.project-row,
+.table-row {
+  align-items: center;
+  border-bottom: 1px solid #e2e8f0;
+  display: grid;
+  gap: 18px;
+  padding: 16px 0;
+}
+
+.project-row {
+  grid-template-columns: minmax(260px, 1fr) minmax(220px, 0.7fr) minmax(160px, 0.35fr);
+}
+
+.project-row:last-child,
+.table-row:last-child {
+  border-bottom: 0;
+}
+
+.project-row h3,
+.project-row p,
+.table-row p {
+  margin: 0;
+}
+
+.project-row h3 {
+  font-size: 20px;
+  margin: 6px 0;
+}
+
+.project-row p,
+.table-row p,
+.money-block span,
+.right span {
+  color: #64748b;
+}
+
+.code {
+  color: #2563eb;
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.progress-block {
+  display: grid;
+  gap: 10px;
+}
+
+.progress-block span {
+  color: #334155;
+  font-weight: 800;
+}
+
+.progress-track {
+  background: #e2e8f0;
+  border-radius: 999px;
+  height: 10px;
+  overflow: hidden;
+}
+
+.progress-track div {
+  background: linear-gradient(90deg, #0f766e, #2563eb);
+  height: 100%;
+}
+
+.money-block,
+.right {
+  display: grid;
+  gap: 8px;
+  justify-items: end;
+  text-align: right;
+}
+
+.money-block strong,
+.table-row strong {
+  color: #0f172a;
+}
+
+.split {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.table-list {
+  display: grid;
+}
+
+.table-row {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.next-list {
+  color: #334155;
+  display: grid;
+  gap: 12px;
+  line-height: 1.55;
+  margin: 0;
+  padding-left: 22px;
+}
+
+@media (max-width: 960px) {
+  .topbar,
+  .hero,
+  .project-row,
+  .split {
+    grid-template-columns: 1fr;
+  }
+
+  .topbar {
+    align-items: flex-start;
+    display: grid;
+  }
+
+  .topbar nav {
+    justify-content: flex-start;
+  }
+
+  .metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .money-block,
+  .right {
+    justify-items: start;
+    text-align: left;
+  }
+}
+
+@media (max-width: 620px) {
+  .hero,
+  .metrics,
+  .section-grid,
+  .split {
+    width: calc(100% - 24px);
+  }
+
+  .hero {
+    margin-top: 16px;
+  }
+
+  .metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .table-row {
+    align-items: flex-start;
+    grid-template-columns: 1fr;
+  }
+}

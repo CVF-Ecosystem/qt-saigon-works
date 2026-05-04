@@ -1,0 +1,17 @@
+[package]
+name = "qt-saigon-works"
+version = "0.1.0"
+description = "QT Sai Gon Works desktop shell"
+authors = ["QT Sai Gon"]
+edition = "2021"
+
+[lib]
+name = "qt_saigon_works_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-opener = "2"
