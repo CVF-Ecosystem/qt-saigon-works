@@ -1,6 +1,47 @@
 # QT Sai Gon Works - Agent Handoff
 
-Cap nhat: 2026-05-05 (P2.3 HRM Lite CLOSED / manual data test PASS)
+Cap nhat: 2026-05-05 (P2.2/P2.3 cleanup CLOSED / build + UI + live CRUD PASS)
+
+## Codex cleanup pass — P2.2 Materials / pre-Claude handoff
+
+**Thuc hien boi:** Codex, 2026-05-05
+**Risk:** R2 (Supabase data surface + CRUD mutations)
+**Status:** CLOSED
+
+### Da sua
+
+- Them basic Purchase Order flow de hoan tat P2.2:
+  - `src/hooks/usePurchaseOrders.ts`
+  - `src/components/materials/PurchaseOrderForm.tsx`
+  - `src/pages/PurchaseOrdersPage.tsx`
+  - `src/components/materials/MaterialsNav.tsx`
+  - route `/don-mua-vat-tu`
+  - sidebar nav item `Đơn mua vật tư`
+- PO basic co supplier link, project link optional, 1 item line, total amount, status flow: draft -> review -> approved -> ordered -> delivered -> paid.
+- Them tab dieu huong noi bo cho cum vat tu tren desktop/mobile: Danh muc, Yeu cau, Don mua.
+- Route-level lazy loading trong `src/App.tsx`; main JS chunk giam tu ~588 kB xuong ~439 kB va khong con warning chunk >500 kB.
+- Doi cac page handler tu `input: any` sang input type that.
+- Dung `useAuth().profile` nhat quan cho `created_by` / `requested_by` thay vi query profile thu cong trong create mutation.
+- Them `/don-mua-vat-tu` vao route smoke.
+
+### Verification
+
+Da chay:
+
+```powershell
+npm run build
+npm run test:ui -- --reporter=line
+```
+
+Ket qua:
+
+- `npm run build` PASS; khong con bundle warning.
+- `npm run test:ui -- --reporter=line` PASS: 30/30.
+- Live Supabase UI smoke PASS: tao/xoa PO tam thanh cong va da cleanup record tam.
+
+### Next governed move
+
+P2.2 Materials Workflow va P2.3 HRM Lite dang o trang thai sach hon de Claude tiep tuc P2.4 Documents.
 
 ## Codex cleanup pass — P2.3 HRM Lite / test gate
 
@@ -52,7 +93,7 @@ Ket qua:
 - `npm run build` PASS.
 - `npm run test:ui -- --reporter=line` PASS: 30/30.
 - `git diff --check` PASS.
-- Build con warning chunk lon: JS bundle ~587 kB sau minify. Chua phai blocker cho MVP, nhung nen code-split sau khi app lon hon.
+- Build warning chunk lon da duoc xu ly o cleanup pass 2026-05-05 bang route-level lazy loading.
 
 ### Manual data test
 

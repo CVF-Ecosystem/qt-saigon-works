@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Plus, Edit2, Trash2, Mail, Phone, MapPin } from 'lucide-react';
 import { PageHeader } from '../components/ui/PageHeader';
 import ClientForm from '../components/clients/ClientForm';
-import { useClients, useCreateClient, useUpdateClient, useDeleteClient, type Client } from '../hooks/useClients';
+import { useClients, useCreateClient, useUpdateClient, useDeleteClient, type Client, type ClientInput } from '../hooks/useClients';
 
 export default function ClientsPage() {
   const [showForm, setShowForm] = useState(false);
@@ -13,7 +13,7 @@ export default function ClientsPage() {
   const updateClient = useUpdateClient();
   const deleteClient = useDeleteClient();
 
-  function handleCreate(input: any) {
+  function handleCreate(input: ClientInput) {
     createClient.mutate(input, {
       onSuccess: () => {
         setShowForm(false);
@@ -21,7 +21,7 @@ export default function ClientsPage() {
     });
   }
 
-  function handleUpdate(input: any) {
+  function handleUpdate(input: ClientInput) {
     if (!editingClient) return;
     updateClient.mutate(
       { id: editingClient.id, input },

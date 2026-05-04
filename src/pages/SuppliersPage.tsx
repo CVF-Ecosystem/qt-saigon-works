@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Plus, Edit2, Trash2, Mail, Phone } from 'lucide-react';
 import { PageHeader } from '../components/ui/PageHeader';
 import SupplierForm from '../components/suppliers/SupplierForm';
-import { useSuppliers, useCreateSupplier, useUpdateSupplier, useDeleteSupplier, type Supplier } from '../hooks/useSuppliers';
+import { useSuppliers, useCreateSupplier, useUpdateSupplier, useDeleteSupplier, type Supplier, type SupplierInput } from '../hooks/useSuppliers';
 
 export default function SuppliersPage() {
   const [showForm, setShowForm] = useState(false);
@@ -13,13 +13,13 @@ export default function SuppliersPage() {
   const updateSupplier = useUpdateSupplier();
   const deleteSupplier = useDeleteSupplier();
 
-  function handleCreate(input: any) {
+  function handleCreate(input: SupplierInput) {
     createSupplier.mutate(input, {
       onSuccess: () => setShowForm(false),
     });
   }
 
-  function handleUpdate(input: any) {
+  function handleUpdate(input: SupplierInput) {
     if (!editingSupplier) return;
     updateSupplier.mutate(
       { id: editingSupplier.id, input },

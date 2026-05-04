@@ -21,6 +21,7 @@ const routes = [
   { path: "/cong-trinh", text: "Công trình" },
   { path: "/tai-chinh", text: "Tài chính" },
   { path: "/vat-tu", text: "Vật tư" },
+  { path: "/don-mua-vat-tu", text: "Đơn mua vật tư" },
 ];
 
 test.describe("Auth Gate Smoke", () => {

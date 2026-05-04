@@ -6,8 +6,8 @@ import { StatusBadge } from '../components/ui/StatusBadge';
 import CostForm from '../components/finance/CostForm';
 import PaymentForm from '../components/finance/PaymentForm';
 import { useProjectFinance } from '../hooks/useProjectFinance';
-import { useCosts, useCreateCost, useUpdateCost, useDeleteCost, type ProjectCost } from '../hooks/useCosts';
-import { usePayments, useCreatePayment, useUpdatePayment, useDeletePayment, type Payment } from '../hooks/usePayments';
+import { useCosts, useCreateCost, useUpdateCost, useDeleteCost, type ProjectCost, type CostInput } from '../hooks/useCosts';
+import { usePayments, useCreatePayment, useUpdatePayment, useDeletePayment, type Payment, type PaymentInput } from '../hooks/usePayments';
 import { formatVnd } from '../utils/format';
 
 type Tab = 'overview' | 'costs' | 'payments';
@@ -60,10 +60,10 @@ export default function FinancePage() {
   const deletePayment = useDeletePayment();
 
   // --- Cost handlers ---
-  function handleCreateCost(input: any) {
+  function handleCreateCost(input: CostInput) {
     createCost.mutate(input, { onSuccess: () => setShowCostForm(false) });
   }
-  function handleUpdateCost(input: any) {
+  function handleUpdateCost(input: CostInput) {
     if (!editingCost) return;
     updateCost.mutate({ id: editingCost.id, input }, { onSuccess: () => setEditingCost(undefined) });
   }
@@ -73,10 +73,10 @@ export default function FinancePage() {
   }
 
   // --- Payment handlers ---
-  function handleCreatePayment(input: any) {
+  function handleCreatePayment(input: PaymentInput) {
     createPayment.mutate(input, { onSuccess: () => setShowPaymentForm(false) });
   }
-  function handleUpdatePayment(input: any) {
+  function handleUpdatePayment(input: PaymentInput) {
     if (!editingPayment) return;
     updatePayment.mutate({ id: editingPayment.id, input }, { onSuccess: () => setEditingPayment(undefined) });
   }

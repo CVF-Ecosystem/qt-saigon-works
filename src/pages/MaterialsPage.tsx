@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { Plus, Edit2, Trash2 } from 'lucide-react';
 import { PageHeader } from '../components/ui/PageHeader';
 import MaterialForm from '../components/materials/MaterialForm';
-import { useMaterials, useCreateMaterial, useUpdateMaterial, useDeleteMaterial, type MaterialItem } from '../hooks/useMaterials';
+import { MaterialsNav } from '../components/materials/MaterialsNav';
+import { useMaterials, useCreateMaterial, useUpdateMaterial, useDeleteMaterial, type MaterialItem, type MaterialInput } from '../hooks/useMaterials';
 import { formatVnd } from '../utils/format';
 
 export default function MaterialsPage() {
@@ -14,13 +15,13 @@ export default function MaterialsPage() {
   const updateMaterial = useUpdateMaterial();
   const deleteMaterial = useDeleteMaterial();
 
-  function handleCreate(input: any) {
+  function handleCreate(input: MaterialInput) {
     createMaterial.mutate(input, {
       onSuccess: () => setShowForm(false),
     });
   }
 
-  function handleUpdate(input: any) {
+  function handleUpdate(input: MaterialInput) {
     if (!editingMaterial) return;
     updateMaterial.mutate(
       { id: editingMaterial.id, input },
@@ -72,6 +73,8 @@ export default function MaterialsPage() {
           <span className="sm:hidden">Thêm</span>
         </button>
       </div>
+
+      <MaterialsNav />
 
       {/* Desktop Table */}
       <div className="hidden md:block bg-slate-800/50 rounded-xl border border-slate-700 overflow-hidden">

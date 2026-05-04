@@ -9,6 +9,7 @@ import {
   useDeleteAttendance,
   calcPayroll,
   type AttendanceEntry,
+  type AttendanceInput,
 } from '../hooks/useAttendance';
 import { formatVnd, formatCompactVnd } from '../utils/format';
 
@@ -43,11 +44,11 @@ export default function AttendancePage() {
   const updateAttendance = useUpdateAttendance();
   const deleteAttendance = useDeleteAttendance();
 
-  function handleCreate(input: any) {
+  function handleCreate(input: AttendanceInput) {
     createAttendance.mutate(input, { onSuccess: () => setShowForm(false) });
   }
 
-  function handleUpdate(input: any) {
+  function handleUpdate(input: AttendanceInput) {
     if (!editingEntry) return;
     updateAttendance.mutate({ id: editingEntry.id, input }, { onSuccess: () => setEditingEntry(undefined) });
   }

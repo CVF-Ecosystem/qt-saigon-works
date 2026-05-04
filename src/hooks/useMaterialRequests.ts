@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '../lib/supabase';
+import { useAuth } from '../lib/auth';
 
 export type RequestStatus = 'draft' | 'review' | 'approved' | 'rejected' | 'ordered' | 'delivered' | 'paid' | 'closed';
 
@@ -59,14 +60,16 @@ export function useMaterialRequests(projectId?: string) {
 
 export function useCreateMaterialRequest() {
   const queryClient = useQueryClient();
+  const { profile } = useAuth();
+
   return useMutation({
     mutationFn: async (input: MaterialRequestInput) => {
       if (!supabase) throw new Error('Supabase not configured');
+      if (!profile?.id) throw new Error('Không tìm thấy người dùng hiện tại');
 
-      const { data: { user } } = await supabase.auth.getUser();
       const { data, error } = await supabase
         .from('material_requests')
-        .insert({ ...input, requested_by: user?.id })
+        .insert({ ...input, requested_by: profile.id })
         .select()
         .single();
 

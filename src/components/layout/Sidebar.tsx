@@ -12,6 +12,7 @@ import {
   UserCircle,
   Truck,
   ClipboardList,
+  ShoppingCart,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { useAuth } from "../../lib/auth";
@@ -35,6 +36,7 @@ const NAV_ITEMS: NavItem[] = [
   { to: "/nha-cung-cap", icon: Truck, label: "Nhà cung cấp" },
   { to: "/vat-tu", icon: Package, label: "Vật tư" },
   { to: "/yeu-cau-vat-tu", icon: ClipboardList, label: "Yêu cầu vật tư" },
+  { to: "/don-mua-vat-tu", icon: ShoppingCart, label: "Đơn mua vật tư" },
   { to: "/tai-lieu", icon: FileText, label: "Tài liệu" },
   { to: "/cau-hinh", icon: Settings, label: "Cấu hình" },
 ];

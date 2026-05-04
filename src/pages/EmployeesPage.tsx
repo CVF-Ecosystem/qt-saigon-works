@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Plus, Edit2, Trash2 } from 'lucide-react';
 import { PageHeader } from '../components/ui/PageHeader';
 import EmployeeForm from '../components/employees/EmployeeForm';
-import { useEmployees, useCreateEmployee, useUpdateEmployee, useDeleteEmployee, type Employee } from '../hooks/useEmployees';
+import { useEmployees, useCreateEmployee, useUpdateEmployee, useDeleteEmployee, type Employee, type EmployeeInput } from '../hooks/useEmployees';
 import { formatVnd } from '../utils/format';
 
 export default function EmployeesPage() {
@@ -14,13 +14,13 @@ export default function EmployeesPage() {
   const updateEmployee = useUpdateEmployee();
   const deleteEmployee = useDeleteEmployee();
 
-  function handleCreate(input: any) {
+  function handleCreate(input: EmployeeInput) {
     createEmployee.mutate(input, {
       onSuccess: () => setShowForm(false),
     });
   }
 
-  function handleUpdate(input: any) {
+  function handleUpdate(input: EmployeeInput) {
     if (!editingEmployee) return;
     updateEmployee.mutate(
       { id: editingEmployee.id, input },

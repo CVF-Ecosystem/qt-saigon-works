@@ -3,7 +3,7 @@ import { Plus, Edit2, Trash2 } from 'lucide-react';
 import { PageHeader } from '../components/ui/PageHeader';
 import { StatusBadge } from '../components/ui/StatusBadge';
 import ProjectForm from '../components/projects/ProjectForm';
-import { useProjects, useCreateProject, useUpdateProject, useDeleteProject, type Project, type ProjectStatus } from '../hooks/useProjects';
+import { useProjects, useCreateProject, useUpdateProject, useDeleteProject, type Project, type ProjectInput, type ProjectStatus } from '../hooks/useProjects';
 import { formatVnd } from '../utils/format';
 
 const statusLabels: Record<ProjectStatus, string> = {
@@ -33,7 +33,7 @@ export default function ProjectsPage() {
   const updateProject = useUpdateProject();
   const deleteProject = useDeleteProject();
 
-  function handleCreate(input: any) {
+  function handleCreate(input: ProjectInput) {
     createProject.mutate(input, {
       onSuccess: () => {
         setShowForm(false);
@@ -41,7 +41,7 @@ export default function ProjectsPage() {
     });
   }
 
-  function handleUpdate(input: any) {
+  function handleUpdate(input: ProjectInput) {
     if (!editingProject) return;
     updateProject.mutate(
       { id: editingProject.id, input },

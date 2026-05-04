@@ -1,18 +1,34 @@
+import { lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./lib/auth";
 import { AppLayout } from "./components/layout/AppLayout";
 import ProtectedRoute from "./components/layout/ProtectedRoute";
-import { DashboardPage } from "./pages/DashboardPage";
 import { PlaceholderPage } from "./pages/PlaceholderPage";
 import LoginPage from "./pages/LoginPage";
-import ClientsPage from "./pages/ClientsPage";
-import ProjectsPage from "./pages/ProjectsPage";
-import EmployeesPage from "./pages/EmployeesPage";
-import SuppliersPage from "./pages/SuppliersPage";
-import MaterialsPage from "./pages/MaterialsPage";
-import MaterialRequestsPage from "./pages/MaterialRequestsPage";
-import FinancePage from "./pages/FinancePage";
-import AttendancePage from "./pages/AttendancePage";
+
+const DashboardPage = lazy(() =>
+  import("./pages/DashboardPage").then((module) => ({ default: module.DashboardPage }))
+);
+const ClientsPage = lazy(() => import("./pages/ClientsPage"));
+const ProjectsPage = lazy(() => import("./pages/ProjectsPage"));
+const EmployeesPage = lazy(() => import("./pages/EmployeesPage"));
+const SuppliersPage = lazy(() => import("./pages/SuppliersPage"));
+const MaterialsPage = lazy(() => import("./pages/MaterialsPage"));
+const MaterialRequestsPage = lazy(() => import("./pages/MaterialRequestsPage"));
+const PurchaseOrdersPage = lazy(() => import("./pages/PurchaseOrdersPage"));
+const FinancePage = lazy(() => import("./pages/FinancePage"));
+const AttendancePage = lazy(() => import("./pages/AttendancePage"));
+
+function PageLoading() {
+  return (
+    <div className="flex items-center justify-center min-h-[360px]">
+      <div className="text-center">
+        <div className="inline-block w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mb-4" />
+        <p className="text-slate-400">Đang tải...</p>
+      </div>
+    </div>
+  );
+}
 
 export default function App() {
   return (
@@ -23,7 +39,9 @@ export default function App() {
           <Route
             element={
               <ProtectedRoute>
-                <AppLayout />
+                <Suspense fallback={<PageLoading />}>
+                  <AppLayout />
+                </Suspense>
               </ProtectedRoute>
             }
           >
@@ -35,6 +53,7 @@ export default function App() {
             <Route path="/nha-cung-cap" element={<SuppliersPage />} />
             <Route path="/vat-tu" element={<MaterialsPage />} />
             <Route path="/yeu-cau-vat-tu" element={<MaterialRequestsPage />} />
+            <Route path="/don-mua-vat-tu" element={<PurchaseOrdersPage />} />
             <Route path="/tai-chinh" element={<FinancePage />} />
             <Route
               path="/tai-lieu"

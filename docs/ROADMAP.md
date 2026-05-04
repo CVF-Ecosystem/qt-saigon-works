@@ -1,6 +1,6 @@
 # QT Sai Gon Works - Implementation Roadmap
 
-Cap nhat: 2026-05-04
+Cap nhat: 2026-05-05
 
 ## Nguyen tac ban giao cho Claude/agent
 
@@ -23,12 +23,19 @@ Da co:
 
 - React + Vite + TypeScript skeleton.
 - Netlify config.
-- Supabase client placeholder.
+- Supabase client configured via local env.
 - TanStack Query provider.
 - Runtime helper de phan biet web vs Tauri desktop.
 - Supabase migration MVP.
 - Tauri desktop skeleton.
-- Dashboard demo data.
+- Auth UI + protected app shell.
+- Responsive desktop sidebar + mobile bottom nav.
+- Playwright viewport smoke tests.
+- Dashboard MVP.
+- CRUD clients, projects, employees, suppliers, material catalog.
+- P2.1 finance overview, costs, payments.
+- P2.2 material requests + basic purchase orders with supplier link.
+- P2.3 attendance + payroll estimate.
 - UI/mobile/desktop standards.
 - Agent handoff.
 
@@ -36,15 +43,14 @@ Da verify:
 
 - `npm install`
 - `npm run build`
-- CVF doctor `PASS 13/13`
+- `npm run test:ui -- --reporter=line`
+- Live Supabase UI smoke for attendance, core CRUD, and purchase order create/delete.
 
 Chua co:
 
-- Supabase project thật.
-- Auth UI.
-- CRUD thật.
-- Responsive navigation shell chuẩn.
-- Playwright viewport screenshot tests.
+- P2.4 Documents.
+- Phase 3 reports/export.
+- Production hardening.
 - Desktop installer.
 
 ## Phase 0 - Foundation Lock

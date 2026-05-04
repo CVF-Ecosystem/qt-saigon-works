@@ -3,12 +3,14 @@ import { Plus, Edit2, Trash2, CheckCircle, Clock, XCircle, Truck } from 'lucide-
 import { PageHeader } from '../components/ui/PageHeader';
 import { StatusBadge } from '../components/ui/StatusBadge';
 import MaterialRequestForm from '../components/materials/MaterialRequestForm';
+import { MaterialsNav } from '../components/materials/MaterialsNav';
 import {
   useMaterialRequests,
   useCreateMaterialRequest,
   useUpdateMaterialRequest,
   useDeleteMaterialRequest,
   type MaterialRequest,
+  type MaterialRequestInput,
   type RequestStatus,
 } from '../hooks/useMaterialRequests';
 
@@ -52,11 +54,11 @@ export default function MaterialRequestsPage() {
   const updateRequest = useUpdateMaterialRequest();
   const deleteRequest = useDeleteMaterialRequest();
 
-  function handleCreate(input: any) {
+  function handleCreate(input: MaterialRequestInput) {
     createRequest.mutate(input, { onSuccess: () => setShowForm(false) });
   }
 
-  function handleUpdate(input: any) {
+  function handleUpdate(input: MaterialRequestInput) {
     if (!editingRequest) return;
     updateRequest.mutate({ id: editingRequest.id, input }, { onSuccess: () => setEditingRequest(undefined) });
   }
@@ -114,6 +116,8 @@ export default function MaterialRequestsPage() {
           <span className="sm:hidden">Thêm</span>
         </button>
       </div>
+
+      <MaterialsNav />
 
       {/* Status filter */}
       <div className="flex flex-wrap gap-2">
