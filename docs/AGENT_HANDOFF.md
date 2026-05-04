@@ -1,12 +1,12 @@
 # QT Sai Gon Works - Agent Handoff
 
-Cap nhat: 2026-05-05 (P2.3 HRM Lite cleanup READY_FOR_MANUAL_DATA_TEST)
+Cap nhat: 2026-05-05 (P2.3 HRM Lite CLOSED / manual data test PASS)
 
 ## Codex cleanup pass — P2.3 HRM Lite / test gate
 
 **Thuc hien boi:** Codex, 2026-05-05
 **Risk:** R2 (Supabase data surface + Auth route behavior)
-**Status:** READY_FOR_MANUAL_DATA_TEST
+**Status:** CLOSED
 
 ### Context
 
@@ -54,17 +54,21 @@ Ket qua:
 - `git diff --check` PASS.
 - Build con warning chunk lon: JS bundle ~587 kB sau minify. Chua phai blocker cho MVP, nhung nen code-split sau khi app lon hon.
 
-### Chua claim
+### Manual data test
 
-- Chua claim P2.3 CLOSED vi chua manual test thao tac Supabase thật cho add/edit/delete attendance.
-- Chua test desktop/mobile `/cham-cong` bang screenshot voi du lieu Supabase that trong browser.
+Da test bang owner account tren dev server local:
+
+- Login PASS.
+- Dashboard render PASS.
+- `/cham-cong` render PASS.
+- Attendance form load duoc project options: 3 cong trinh + placeholder.
+- Attendance form load duoc employee options: 6 nhan vien + placeholder.
+- Tao ban ghi cham cong tam ngay `2026-05-31` PASS.
+- Xoa ban ghi tam PASS; con lai 0 row tam.
 
 ### Next governed move
 
-1. Manual login owner account.
-2. Mo `/cham-cong`.
-3. Test tao/sua/xoa cham cong voi project + employee seed.
-4. Neu pass, cap nhat handoff P2.3 CLOSED va commit/continue P2.4 Documents.
+P2.3 CLOSED. Co the tiep tuc P2.4 Documents.
 
 ## Phase 0 Closure — 2026-05-05
 
