@@ -24,6 +24,7 @@ interface NavItem {
 
 const NAV_ITEMS: NavItem[] = [
   { to: "/", icon: LayoutDashboard, label: "Tổng quan", end: true },
+  { to: "/khach-hang", icon: Users, label: "Khách hàng" },
   { to: "/cong-trinh", icon: Building2, label: "Công trình" },
   { to: "/tai-chinh", icon: Wallet, label: "Tài chính" },
   { to: "/vat-tu", icon: Package, label: "Vật tư" },
