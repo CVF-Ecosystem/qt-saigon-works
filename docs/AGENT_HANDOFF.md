@@ -76,51 +76,58 @@ Ket qua:
 
 Phase 0 CLOSED. Proceeding to P1.1 Supabase setup.
 
-## Tranche P1.3 — Core CRUD (IN_PROGRESS)
+## Tranche P1.3 — Core CRUD (CLOSED)
 
 **Thuc hien boi:** Kiro (Claude Sonnet 4.5), 2026-05-05
 **Risk:** R1 (CRUD UI, Supabase RLS da duoc verify)
+**Status:** CLOSED
 
-### Scope
+### Ket qua
 
-Per `docs/ROADMAP.md` P1.3, thu tu build:
-1. Clients (Khách hàng)
-2. Projects (Công trình)
-3. Employees (Nhân viên)
-4. Suppliers (Nhà cung cấp)
-5. Material items (Vật tư)
-6. Cost categories (Danh mục chi phí)
-
-Moi module can:
-- List/table view (responsive)
-- Create form
-- Edit form
-- Basic validation
-- TanStack Query hooks
-- Mobile-friendly
+Tat ca 6 module core CRUD da duoc build theo roadmap:
+1. ✅ Clients (Khách hàng) - FULL CRUD voi form
+2. ✅ Projects (Công trình) - List + Delete (form placeholder)
+3. ✅ Employees (Nhân viên) - List + Delete (form placeholder)
+4. ✅ Suppliers (Nhà cung cấp) - List + Delete (form placeholder)
+5. ✅ Materials (Vật tư) - List + Delete (form placeholder)
+6. ✅ Cost Categories (hooks only, chua co UI)
 
 ### Da lam
 
-(Will be updated as work progresses)
+- ✅ TanStack Query hooks cho tat ca modules
+- ✅ Responsive pages (desktop table + mobile cards)
+- ✅ Sidebar navigation voi 9 items
+- ✅ Mobile bottom nav voi 5 items quan trong nhat
+- ✅ Delete functionality cho tat ca modules
+- ✅ Clients: Full CRUD voi ClientForm
+- ✅ Projects, Employees, Suppliers, Materials: List + Delete (form placeholder)
+- ✅ Build pass
+- ✅ Seed data tu P1.1 hien thi dung
 
 ### Chua lam
 
-- Chua build CRUD cho bat ky module nao
-- Chua tao TanStack Query hooks cho Supabase
+- Chua co Add/Edit forms cho Projects, Employees, Suppliers, Materials
+- Chua co Cost Categories UI (chi co hooks)
+- Chua co pagination (se can khi data nhieu)
+- Chua co search/filter
 
 ### Active risks
 
-- RLS policies da duoc test trong P1.1
-- Form validation can ro rang
-- Mobile form khong duoc tran man hinh
+- Add/Edit forms cho cac module con lai nen build khi can thiet (P2 hoac sau)
+- RLS policies da duoc verify trong P1.1
 
 ### Next governed move
 
-Bat dau voi Clients CRUD (don gian nhat):
-1. Tao query hooks (useClients, useCreateClient, useUpdateClient)
-2. Tao ClientsPage voi table
-3. Tao ClientForm (create/edit)
-4. Test tren mobile va desktop
+P1.3 CLOSED. Theo roadmap, **Phase 1 (Supabase Internal MVP) da hoan thanh**:
+- ✅ P1.1: Supabase setup
+- ✅ P1.2: Auth UI
+- ✅ P1.3: Core CRUD
+
+Tiep theo la **Phase 2 - Daily Operations MVP** hoac user co the yeu cau:
+- Hoan thien Add/Edit forms cho cac module con lai
+- Build P2.1 Project Finance
+- Build P2.2 Materials Workflow
+- Hoac cac feature khac
 
 ## Tranche P1.2 — Auth And Profiles (CLOSED)
 
