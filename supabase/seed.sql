@@ -239,7 +239,6 @@ insert into public.payments (
   project_id,
   payment_date,
   direction,
-  'out',
   counterparty,
   description,
   amount,

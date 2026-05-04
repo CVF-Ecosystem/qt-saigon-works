@@ -111,14 +111,18 @@ Per `docs/ROADMAP.md` P1.1:
 - ✅ User cung cap Supabase credentials
 - ✅ Tao `.env.local` voi credentials (local-only, da verify khong bi track boi git)
 - ✅ Verify build pass voi Supabase configured
+- ✅ User chay migration thanh cong
+- ✅ User bat Email Auth provider
+- ✅ User tao bucket `project-documents` va 3 storage policies (SELECT, INSERT, DELETE)
+- ✅ User tao owner user (UID: `61627271-7cf7-4abf-a9b8-941d1709adbc`)
+- ✅ User tao profile owner trong bang `profiles`
+- ✅ User chay seed data thanh cong (3 clients, 3 projects, 6 employees, 3 suppliers, 8 materials, sample costs/payments/attendance)
 
-### Chua lam (Cho user action)
+### Chua lam
 
-- User can chay migration `0001_initial_schema.sql` trong Supabase SQL Editor
-- User can tao bucket `project-documents` va storage policies (xem Buoc 7 trong `docs/SUPABASE_SETUP.md`)
-- User can bat Auth Email provider (xem Buoc 6 trong `docs/SUPABASE_SETUP.md`)
-- User can tao owner user dau tien (xem Buoc 8 trong `docs/SUPABASE_SETUP.md`)
-- User can chay seed data `supabase/seed.sql` (tuy chon, xem Buoc 10)
+- Chua test login voi user owner
+- Chua build Auth UI (P1.2)
+- Chua build CRUD UI (P1.3)
 
 ### Active risks
 
@@ -128,19 +132,19 @@ Per `docs/ROADMAP.md` P1.1:
 
 ### Next governed move
 
-**WAITING FOR USER INPUT (R2 gate):**
+**P1.1 COMPLETE!** Supabase setup xong.
 
-User can tao Supabase project theo `docs/SUPABASE_SETUP.md` va cung cap:
-1. `VITE_SUPABASE_URL`
-2. `VITE_SUPABASE_ANON_KEY`
+Tiep theo: **P1.2 Auth UI** - Tao login/logout interface.
 
-Sau khi user cung cap credentials, agent se:
-1. Tao `.env.local` voi credentials (local-only, khong commit)
-2. Verify connection
-3. Huong dan user tao owner profile dau tien
-4. Chuyen sang P1.2 Auth UI
+Agent se build:
+1. Login form (email/password)
+2. Logout button
+3. Session persistence
+4. Profile display
+5. Protected routes (redirect neu chua login)
+6. Auth context/hooks
 
-**Hoac** user co the tu lam theo huong dan va bao agent khi da setup xong.
+Risk: R1 (UI only, khong thay doi backend)
 
 ## Tranche P0.1 — Responsive App Shell (CLOSED)
 
