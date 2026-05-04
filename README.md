@@ -52,11 +52,32 @@ Desktop build can Rust toolchain va Tauri prerequisites:
 npm run desktop:build
 ```
 
-## Supabase
+## Supabase Setup
 
-1. Tao project Supabase.
-2. Copy `.env.example` thanh `.env.local`.
-3. Dien `VITE_SUPABASE_URL` va `VITE_SUPABASE_ANON_KEY`.
-4. Chay migration trong `supabase/migrations/0001_initial_schema.sql`.
+**Chi tiet day du:** Xem `docs/SUPABASE_SETUP.md` (huong dan 10 buoc).
+
+**Tom tat nhanh:**
+
+1. Tao project Supabase tai https://supabase.com
+2. Lay Project URL va anon key tu Settings > API
+3. Copy `.env.example` thanh `.env.local` va dien credentials:
+   ```env
+   VITE_SUPABASE_URL=https://xxxxx.supabase.co
+   VITE_SUPABASE_ANON_KEY=eyJ...
+   VITE_APP_COMPANY_NAME=QT Sai Gon
+   ```
+4. Chay migration trong Supabase SQL Editor:
+   - Copy noi dung `supabase/migrations/0001_initial_schema.sql`
+   - Paste vao SQL Editor va Run
+5. Bat Auth Email provider (Settings > Authentication > Providers)
+6. Tao bucket Storage: `project-documents` (xem huong dan storage policies trong `docs/SUPABASE_SETUP.md`)
+7. Tao user owner dau tien (Authentication > Users > Add user)
+8. Tao profile owner trong bang `profiles` (xem huong dan trong `docs/SUPABASE_SETUP.md`)
+9. (Tuy chon) Chay seed data: `supabase/seed.sql` de co data mau
+
+**Luu y bao mat:**
+- `.env.local` da nam trong `.gitignore` - KHONG commit file nay
+- Chi dung anon key cho frontend, KHONG dung service_role key
+- RLS da duoc bat tren tat ca cac bang nghiep vu
 
 Trong MVP, giao dien van co demo data de xem workflow ngay ca khi chua noi Supabase.
