@@ -86,10 +86,10 @@ Phase 0 CLOSED. Proceeding to P1.1 Supabase setup.
 
 Tat ca 6 module core CRUD da duoc build theo roadmap:
 1. ✅ Clients (Khách hàng) - FULL CRUD voi form
-2. ✅ Projects (Công trình) - List + Delete (form placeholder)
-3. ✅ Employees (Nhân viên) - List + Delete (form placeholder)
-4. ✅ Suppliers (Nhà cung cấp) - List + Delete (form placeholder)
-5. ✅ Materials (Vật tư) - List + Delete (form placeholder)
+2. ✅ Projects (Công trình) - FULL CRUD voi form
+3. ✅ Employees (Nhân viên) - FULL CRUD voi form
+4. ✅ Suppliers (Nhà cung cấp) - FULL CRUD voi form
+5. ✅ Materials (Vật tư) - FULL CRUD voi form
 6. ✅ Cost Categories (hooks only, chua co UI)
 
 ### Da lam
@@ -99,32 +99,42 @@ Tat ca 6 module core CRUD da duoc build theo roadmap:
 - ✅ Sidebar navigation voi 9 items
 - ✅ Mobile bottom nav voi 5 items quan trong nhat
 - ✅ Delete functionality cho tat ca modules
-- ✅ Clients: Full CRUD voi ClientForm
-- ✅ Projects, Employees, Suppliers, Materials: List + Delete (form placeholder)
-- ✅ Build pass
+- ✅ **FULL CRUD forms cho tat ca 5 modules:**
+  - `src/components/clients/ClientForm.tsx` - form khach hang
+  - `src/components/projects/ProjectForm.tsx` - form cong trinh (status, dates, contract value, progress)
+  - `src/components/employees/EmployeeForm.tsx` - form nhan vien (employment type, daily rate, active status)
+  - `src/components/suppliers/SupplierForm.tsx` - form nha cung cap
+  - `src/components/materials/MaterialForm.tsx` - form vat tu (name, unit, price, active status)
+- ✅ Tat ca pages da tich hop forms (add/edit/delete)
+- ✅ Build pass (`npm run build`)
 - ✅ Seed data tu P1.1 hien thi dung
 
 ### Chua lam
 
-- Chua co Add/Edit forms cho Projects, Employees, Suppliers, Materials
 - Chua co Cost Categories UI (chi co hooks)
 - Chua co pagination (se can khi data nhieu)
 - Chua co search/filter
+- Chua test CRUD operations tren browser
 
 ### Active risks
 
-- Add/Edit forms cho cac module con lai nen build khi can thiet (P2 hoac sau)
 - RLS policies da duoc verify trong P1.1
+- Forms chua duoc test tren browser (can manual test)
 
 ### Next governed move
 
 P1.3 CLOSED. Theo roadmap, **Phase 1 (Supabase Internal MVP) da hoan thanh**:
 - ✅ P1.1: Supabase setup
 - ✅ P1.2: Auth UI
-- ✅ P1.3: Core CRUD
+- ✅ P1.3: Core CRUD (FULL CRUD cho 5 modules)
+
+**Nen test manual truoc khi chuyen phase:**
+1. Login voi owner account
+2. Test add/edit/delete cho Clients, Projects, Employees, Suppliers, Materials
+3. Verify responsive UI tren mobile va desktop
+4. Verify data persistence trong Supabase
 
 Tiep theo la **Phase 2 - Daily Operations MVP** hoac user co the yeu cau:
-- Hoan thien Add/Edit forms cho cac module con lai
 - Build P2.1 Project Finance
 - Build P2.2 Materials Workflow
 - Hoac cac feature khac

@@ -1,14 +1,46 @@
+import { useState } from 'react';
 import { Plus, Edit2, Trash2, Mail, Phone } from 'lucide-react';
 import { PageHeader } from '../components/ui/PageHeader';
-import { useSuppliers, useDeleteSupplier } from '../hooks/useSuppliers';
+import SupplierForm from '../components/suppliers/SupplierForm';
+import { useSuppliers, useCreateSupplier, useUpdateSupplier, useDeleteSupplier, type Supplier } from '../hooks/useSuppliers';
 
 export default function SuppliersPage() {
+  const [showForm, setShowForm] = useState(false);
+  const [editingSupplier, setEditingSupplier] = useState<Supplier | undefined>();
+
   const { data: suppliers, isLoading } = useSuppliers();
+  const createSupplier = useCreateSupplier();
+  const updateSupplier = useUpdateSupplier();
   const deleteSupplier = useDeleteSupplier();
+
+  function handleCreate(input: any) {
+    createSupplier.mutate(input, {
+      onSuccess: () => setShowForm(false),
+    });
+  }
+
+  function handleUpdate(input: any) {
+    if (!editingSupplier) return;
+    updateSupplier.mutate(
+      { id: editingSupplier.id, input },
+      {
+        onSuccess: () => setEditingSupplier(undefined),
+      }
+    );
+  }
 
   function handleDelete(id: string, name: string) {
     if (!confirm(`Bạn có chắc muốn xóa nhà cung cấp "${name}"?`)) return;
     deleteSupplier.mutate(id);
+  }
+
+  function openEditForm(supplier: Supplier) {
+    setEditingSupplier(supplier);
+  }
+
+  function closeForm() {
+    setShowForm(false);
+    setEditingSupplier(undefined);
   }
 
   if (isLoading) {
@@ -31,7 +63,7 @@ export default function SuppliersPage() {
           description="Danh sách nhà cung cấp vật tư"
         />
         <button
-          onClick={() => alert('Chức năng thêm nhà cung cấp đang phát triển')}
+          onClick={() => setShowForm(true)}
           className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition"
         >
           <Plus size={20} />
@@ -85,7 +117,7 @@ export default function SuppliersPage() {
                   <td className="px-6 py-4">
                     <div className="flex items-center justify-end gap-2">
                       <button
-                        onClick={() => alert('Chức năng sửa đang phát triển')}
+                        onClick={() => openEditForm(supplier)}
                         className="p-2 text-slate-400 hover:text-blue-400 hover:bg-slate-700 rounded-lg transition"
                       >
                         <Edit2 size={18} />
@@ -124,7 +156,7 @@ export default function SuppliersPage() {
               </div>
               <div className="flex gap-2">
                 <button
-                  onClick={() => alert('Chức năng sửa đang phát triển')}
+                  onClick={() => openEditForm(supplier)}
                   className="p-2 text-slate-400 hover:text-blue-400 hover:bg-slate-700 rounded-lg transition"
                 >
                   <Edit2 size={18} />
@@ -161,6 +193,16 @@ export default function SuppliersPage() {
           </div>
         )}
       </div>
+
+      {/* Form Modal */}
+      {(showForm || editingSupplier) && (
+        <SupplierForm
+          supplier={editingSupplier}
+          onSubmit={editingSupplier ? handleUpdate : handleCreate}
+          onCancel={closeForm}
+          loading={createSupplier.isPending || updateSupplier.isPending}
+        />
+      )}
     </div>
   );
 }

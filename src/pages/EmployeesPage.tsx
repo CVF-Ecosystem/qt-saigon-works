@@ -1,15 +1,47 @@
+import { useState } from 'react';
 import { Plus, Edit2, Trash2 } from 'lucide-react';
 import { PageHeader } from '../components/ui/PageHeader';
-import { useEmployees, useDeleteEmployee } from '../hooks/useEmployees';
+import EmployeeForm from '../components/employees/EmployeeForm';
+import { useEmployees, useCreateEmployee, useUpdateEmployee, useDeleteEmployee, type Employee } from '../hooks/useEmployees';
 import { formatVnd } from '../utils/format';
 
 export default function EmployeesPage() {
+  const [showForm, setShowForm] = useState(false);
+  const [editingEmployee, setEditingEmployee] = useState<Employee | undefined>();
+
   const { data: employees, isLoading } = useEmployees();
+  const createEmployee = useCreateEmployee();
+  const updateEmployee = useUpdateEmployee();
   const deleteEmployee = useDeleteEmployee();
+
+  function handleCreate(input: any) {
+    createEmployee.mutate(input, {
+      onSuccess: () => setShowForm(false),
+    });
+  }
+
+  function handleUpdate(input: any) {
+    if (!editingEmployee) return;
+    updateEmployee.mutate(
+      { id: editingEmployee.id, input },
+      {
+        onSuccess: () => setEditingEmployee(undefined),
+      }
+    );
+  }
 
   function handleDelete(id: string, name: string) {
     if (!confirm(`Bạn có chắc muốn xóa nhân viên "${name}"?`)) return;
     deleteEmployee.mutate(id);
+  }
+
+  function openEditForm(employee: Employee) {
+    setEditingEmployee(employee);
+  }
+
+  function closeForm() {
+    setShowForm(false);
+    setEditingEmployee(undefined);
   }
 
   if (isLoading) {
@@ -32,7 +64,7 @@ export default function EmployeesPage() {
           description="Danh sách nhân viên và công nhân"
         />
         <button
-          onClick={() => alert('Chức năng thêm nhân viên đang phát triển')}
+          onClick={() => setShowForm(true)}
           className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition"
         >
           <Plus size={20} />
@@ -81,7 +113,7 @@ export default function EmployeesPage() {
                   <td className="px-6 py-4">
                     <div className="flex items-center justify-end gap-2">
                       <button
-                        onClick={() => alert('Chức năng sửa đang phát triển')}
+                        onClick={() => openEditForm(employee)}
                         className="p-2 text-slate-400 hover:text-blue-400 hover:bg-slate-700 rounded-lg transition"
                       >
                         <Edit2 size={18} />
@@ -119,7 +151,7 @@ export default function EmployeesPage() {
               </div>
               <div className="flex gap-2">
                 <button
-                  onClick={() => alert('Chức năng sửa đang phát triển')}
+                  onClick={() => openEditForm(employee)}
                   className="p-2 text-slate-400 hover:text-blue-400 hover:bg-slate-700 rounded-lg transition"
                 >
                   <Edit2 size={18} />
@@ -146,6 +178,16 @@ export default function EmployeesPage() {
           </div>
         )}
       </div>
+
+      {/* Form Modal */}
+      {(showForm || editingEmployee) && (
+        <EmployeeForm
+          employee={editingEmployee}
+          onSubmit={editingEmployee ? handleUpdate : handleCreate}
+          onCancel={closeForm}
+          loading={createEmployee.isPending || updateEmployee.isPending}
+        />
+      )}
     </div>
   );
 }

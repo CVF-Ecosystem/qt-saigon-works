@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { Plus, Edit2, Trash2 } from 'lucide-react';
 import { PageHeader } from '../components/ui/PageHeader';
 import { StatusBadge } from '../components/ui/StatusBadge';
-import { useProjects, useDeleteProject, type ProjectStatus } from '../hooks/useProjects';
+import ProjectForm from '../components/projects/ProjectForm';
+import { useProjects, useCreateProject, useUpdateProject, useDeleteProject, type Project, type ProjectStatus } from '../hooks/useProjects';
 import { formatVnd } from '../utils/format';
 
 const statusLabels: Record<ProjectStatus, string> = {
@@ -24,12 +25,46 @@ const statusColors: Record<ProjectStatus, 'success' | 'warning' | 'info' | 'neut
 };
 
 export default function ProjectsPage() {
+  const [showForm, setShowForm] = useState(false);
+  const [editingProject, setEditingProject] = useState<Project | undefined>();
+
   const { data: projects, isLoading } = useProjects();
+  const createProject = useCreateProject();
+  const updateProject = useUpdateProject();
   const deleteProject = useDeleteProject();
+
+  function handleCreate(input: any) {
+    createProject.mutate(input, {
+      onSuccess: () => {
+        setShowForm(false);
+      },
+    });
+  }
+
+  function handleUpdate(input: any) {
+    if (!editingProject) return;
+    updateProject.mutate(
+      { id: editingProject.id, input },
+      {
+        onSuccess: () => {
+          setEditingProject(undefined);
+        },
+      }
+    );
+  }
 
   function handleDelete(id: string, name: string) {
     if (!confirm(`Bạn có chắc muốn xóa công trình "${name}"?`)) return;
     deleteProject.mutate(id);
+  }
+
+  function openEditForm(project: Project) {
+    setEditingProject(project);
+  }
+
+  function closeForm() {
+    setShowForm(false);
+    setEditingProject(undefined);
   }
 
   if (isLoading) {
@@ -52,7 +87,7 @@ export default function ProjectsPage() {
           description="Danh sách các dự án thi công"
         />
         <button
-          onClick={() => alert('Chức năng thêm công trình đang phát triển')}
+          onClick={() => setShowForm(true)}
           className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition"
         >
           <Plus size={20} />
@@ -101,7 +136,7 @@ export default function ProjectsPage() {
                   <td className="px-6 py-4">
                     <div className="flex items-center justify-end gap-2">
                       <button
-                        onClick={() => alert('Chức năng sửa đang phát triển')}
+                        onClick={() => openEditForm(project)}
                         className="p-2 text-slate-400 hover:text-blue-400 hover:bg-slate-700 rounded-lg transition"
                       >
                         <Edit2 size={18} />
@@ -141,7 +176,7 @@ export default function ProjectsPage() {
               </div>
               <div className="flex gap-2">
                 <button
-                  onClick={() => alert('Chức năng sửa đang phát triển')}
+                  onClick={() => openEditForm(project)}
                   className="p-2 text-slate-400 hover:text-blue-400 hover:bg-slate-700 rounded-lg transition"
                 >
                   <Edit2 size={18} />
@@ -175,6 +210,16 @@ export default function ProjectsPage() {
           </div>
         )}
       </div>
+
+      {/* Form Modal */}
+      {(showForm || editingProject) && (
+        <ProjectForm
+          project={editingProject}
+          onSubmit={editingProject ? handleUpdate : handleCreate}
+          onCancel={closeForm}
+          loading={createProject.isPending || updateProject.isPending}
+        />
+      )}
     </div>
   );
 }

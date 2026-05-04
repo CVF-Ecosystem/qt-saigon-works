@@ -1,15 +1,47 @@
+import { useState } from 'react';
 import { Plus, Edit2, Trash2 } from 'lucide-react';
 import { PageHeader } from '../components/ui/PageHeader';
-import { useMaterials, useDeleteMaterial } from '../hooks/useMaterials';
+import MaterialForm from '../components/materials/MaterialForm';
+import { useMaterials, useCreateMaterial, useUpdateMaterial, useDeleteMaterial, type MaterialItem } from '../hooks/useMaterials';
 import { formatVnd } from '../utils/format';
 
 export default function MaterialsPage() {
+  const [showForm, setShowForm] = useState(false);
+  const [editingMaterial, setEditingMaterial] = useState<MaterialItem | undefined>();
+
   const { data: materials, isLoading } = useMaterials();
+  const createMaterial = useCreateMaterial();
+  const updateMaterial = useUpdateMaterial();
   const deleteMaterial = useDeleteMaterial();
+
+  function handleCreate(input: any) {
+    createMaterial.mutate(input, {
+      onSuccess: () => setShowForm(false),
+    });
+  }
+
+  function handleUpdate(input: any) {
+    if (!editingMaterial) return;
+    updateMaterial.mutate(
+      { id: editingMaterial.id, input },
+      {
+        onSuccess: () => setEditingMaterial(undefined),
+      }
+    );
+  }
 
   function handleDelete(id: string, name: string) {
     if (!confirm(`Bạn có chắc muốn xóa vật tư "${name}"?`)) return;
     deleteMaterial.mutate(id);
+  }
+
+  function openEditForm(material: MaterialItem) {
+    setEditingMaterial(material);
+  }
+
+  function closeForm() {
+    setShowForm(false);
+    setEditingMaterial(undefined);
   }
 
   if (isLoading) {
@@ -32,7 +64,7 @@ export default function MaterialsPage() {
           description="Danh sách vật tư xây dựng"
         />
         <button
-          onClick={() => alert('Chức năng thêm vật tư đang phát triển')}
+          onClick={() => setShowForm(true)}
           className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition"
         >
           <Plus size={20} />
@@ -78,7 +110,7 @@ export default function MaterialsPage() {
                   <td className="px-6 py-4">
                     <div className="flex items-center justify-end gap-2">
                       <button
-                        onClick={() => alert('Chức năng sửa đang phát triển')}
+                        onClick={() => openEditForm(material)}
                         className="p-2 text-slate-400 hover:text-blue-400 hover:bg-slate-700 rounded-lg transition"
                       >
                         <Edit2 size={18} />
@@ -115,7 +147,7 @@ export default function MaterialsPage() {
               </div>
               <div className="flex gap-2">
                 <button
-                  onClick={() => alert('Chức năng sửa đang phát triển')}
+                  onClick={() => openEditForm(material)}
                   className="p-2 text-slate-400 hover:text-blue-400 hover:bg-slate-700 rounded-lg transition"
                 >
                   <Edit2 size={18} />
@@ -152,6 +184,16 @@ export default function MaterialsPage() {
           </div>
         )}
       </div>
+
+      {/* Form Modal */}
+      {(showForm || editingMaterial) && (
+        <MaterialForm
+          material={editingMaterial}
+          onSubmit={editingMaterial ? handleUpdate : handleCreate}
+          onCancel={closeForm}
+          loading={createMaterial.isPending || updateMaterial.isPending}
+        />
+      )}
     </div>
   );
 }
