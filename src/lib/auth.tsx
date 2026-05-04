@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState, ReactNode } from 'react
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from './supabase';
 
-interface Profile {
+export interface Profile {
   id: string;
   company_id: string;
   full_name: string;
@@ -22,13 +22,46 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+function isE2eAuthBypassEnabled() {
+  return (
+    import.meta.env.DEV &&
+    typeof window !== 'undefined' &&
+    window.localStorage.getItem('qt-e2e-auth-bypass') === '1'
+  );
+}
+
+const e2eUser = {
+  id: '00000000-0000-4000-8000-000000000001',
+  app_metadata: {},
+  aud: 'authenticated',
+  created_at: '2026-05-05T00:00:00.000Z',
+  email: 'e2e@qtsaigon.local',
+  user_metadata: {},
+} as User;
+
+const e2eProfile: Profile = {
+  id: e2eUser.id,
+  company_id: '00000000-0000-0000-0000-000000000001',
+  full_name: 'E2E Owner',
+  role: 'owner',
+  phone: null,
+  active: true,
+};
+
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
-  const [profile, setProfile] = useState<Profile | null>(null);
+  const e2eAuthBypass = isE2eAuthBypassEnabled();
+  const [user, setUser] = useState<User | null>(e2eAuthBypass ? e2eUser : null);
+  const [profile, setProfile] = useState<Profile | null>(
+    e2eAuthBypass ? e2eProfile : null
+  );
   const [session, setSession] = useState<Session | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!e2eAuthBypass);
 
   useEffect(() => {
+    if (e2eAuthBypass) {
+      return;
+    }
+
     if (!supabase) {
       setLoading(false);
       return;
@@ -87,6 +120,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   async function signIn(email: string, password: string) {
+    if (e2eAuthBypass) {
+      return { error: null };
+    }
+
     if (!supabase) {
       return { error: new Error('Supabase chưa được cấu hình') };
     }
@@ -103,6 +140,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   async function signOut() {
+    if (e2eAuthBypass) {
+      return;
+    }
+
     if (!supabase) return;
     await supabase.auth.signOut();
   }

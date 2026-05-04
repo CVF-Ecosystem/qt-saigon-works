@@ -31,6 +31,7 @@ const NAV_ITEMS: NavItem[] = [
   { to: "/cong-trinh", icon: Building2, label: "Công trình" },
   { to: "/tai-chinh", icon: Wallet, label: "Tài chính" },
   { to: "/nhan-su", icon: Users, label: "Nhân sự" },
+  { to: "/cham-cong", icon: ClipboardList, label: "Chấm công" },
   { to: "/nha-cung-cap", icon: Truck, label: "Nhà cung cấp" },
   { to: "/vat-tu", icon: Package, label: "Vật tư" },
   { to: "/yeu-cau-vat-tu", icon: ClipboardList, label: "Yêu cầu vật tư" },

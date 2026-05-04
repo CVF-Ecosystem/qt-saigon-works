@@ -23,14 +23,30 @@ const routes = [
   { path: "/vat-tu", text: "Vật tư" },
 ];
 
+test.describe("Auth Gate Smoke", () => {
+  test("unauthenticated users are routed to login", async ({ page }) => {
+    await page.goto("/");
+
+    await expect(page).toHaveURL(/\/login$/);
+    await expect(page.getByRole("heading", { name: "Đăng nhập" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Đăng nhập" })).toBeVisible();
+  });
+});
+
 test.describe("Viewport Smoke Tests", () => {
+  test.beforeEach(async ({ page }) => {
+    await page.addInitScript(() => {
+      window.localStorage.setItem("qt-e2e-auth-bypass", "1");
+    });
+  });
+
   test("dashboard renders on all viewports", async ({ page, viewport }) => {
     await page.goto("/");
 
     await expect(
       page.getByRole("heading", { name: "Tổng quan vận hành" })
     ).toBeVisible();
-    await expect(page.getByLabel("Company metrics")).toBeVisible();
+    await expect(page.getByLabel("Chỉ số tổng công ty")).toBeVisible();
 
     await page.screenshot({
       path: `test-results/screenshots/dashboard-${viewport?.width}x${viewport?.height}.png`,

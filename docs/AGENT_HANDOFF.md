@@ -1,6 +1,70 @@
 # QT Sai Gon Works - Agent Handoff
 
-Cap nhat: 2026-05-05 (Phase 0 CLOSED, Phase 1 IN_PROGRESS)
+Cap nhat: 2026-05-05 (P2.3 HRM Lite cleanup READY_FOR_MANUAL_DATA_TEST)
+
+## Codex cleanup pass — P2.3 HRM Lite / test gate
+
+**Thuc hien boi:** Codex, 2026-05-05
+**Risk:** R2 (Supabase data surface + Auth route behavior)
+**Status:** READY_FOR_MANUAL_DATA_TEST
+
+### Context
+
+Claude/Kiro da them P2.3 cham cong:
+
+- `src/hooks/useAttendance.ts`
+- `src/components/employees/AttendanceForm.tsx`
+- `src/pages/AttendancePage.tsx`
+- route `/cham-cong`
+- sidebar nav item `Chấm công`
+
+Truoc cleanup, `npm run build` PASS nhung `npm run test:ui -- --reporter=line` FAIL 20/25 vi Playwright smoke van expect dashboard tai `/`, trong khi P1.2 Auth da redirect user chua dang nhap sang `/login`.
+
+### Da sua
+
+- Them dev-only UI-test auth bypass trong `src/lib/auth.tsx` qua `localStorage` key `qt-e2e-auth-bypass`.
+  - Chi hoat dong khi `import.meta.env.DEV`.
+  - Khong anh huong production build.
+  - Dung cho UI structure smoke test, khong phai governance/live evidence proof.
+- Cap nhat `tests/viewport-smoke.spec.ts`:
+  - Them auth-gate smoke: user chua auth vao `/` phai ve `/login`.
+  - Shell/route smoke set `qt-e2e-auth-bypass=1` de test dashboard/nav sau auth ma khong can Supabase test account.
+  - Cap nhat label KPI dashboard tu `Company metrics` sang `Chỉ số tổng công ty`.
+- Cap nhat `playwright.config.ts` chay `workers: 1` de screenshot smoke deterministic tren Windows.
+- Sua P2.3 UI:
+  - `AttendanceForm.tsx` dung `formatVnd` thay vi `new Intl.NumberFormat` truc tiep.
+  - Nut modal/action/edit/delete dat min touch target 44px.
+  - Form attendance khong ep 3 cot tren mobile (`grid-cols-1 sm:grid-cols-3`).
+  - `AttendancePage.tsx` dung `.page` container va header stack tren mobile.
+
+### Verification
+
+Da chay:
+
+```powershell
+npm run build
+npm run test:ui -- --reporter=line
+git diff --check
+```
+
+Ket qua:
+
+- `npm run build` PASS.
+- `npm run test:ui -- --reporter=line` PASS: 30/30.
+- `git diff --check` PASS.
+- Build con warning chunk lon: JS bundle ~587 kB sau minify. Chua phai blocker cho MVP, nhung nen code-split sau khi app lon hon.
+
+### Chua claim
+
+- Chua claim P2.3 CLOSED vi chua manual test thao tac Supabase thật cho add/edit/delete attendance.
+- Chua test desktop/mobile `/cham-cong` bang screenshot voi du lieu Supabase that trong browser.
+
+### Next governed move
+
+1. Manual login owner account.
+2. Mo `/cham-cong`.
+3. Test tao/sua/xoa cham cong voi project + employee seed.
+4. Neu pass, cap nhat handoff P2.3 CLOSED va commit/continue P2.4 Documents.
 
 ## Phase 0 Closure — 2026-05-05
 

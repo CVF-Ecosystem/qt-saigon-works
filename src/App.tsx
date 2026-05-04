@@ -12,6 +12,7 @@ import SuppliersPage from "./pages/SuppliersPage";
 import MaterialsPage from "./pages/MaterialsPage";
 import MaterialRequestsPage from "./pages/MaterialRequestsPage";
 import FinancePage from "./pages/FinancePage";
+import AttendancePage from "./pages/AttendancePage";
 
 export default function App() {
   return (
@@ -30,6 +31,7 @@ export default function App() {
             <Route path="/khach-hang" element={<ClientsPage />} />
             <Route path="/cong-trinh" element={<ProjectsPage />} />
             <Route path="/nhan-su" element={<EmployeesPage />} />
+            <Route path="/cham-cong" element={<AttendancePage />} />
             <Route path="/nha-cung-cap" element={<SuppliersPage />} />
             <Route path="/vat-tu" element={<MaterialsPage />} />
             <Route path="/yeu-cau-vat-tu" element={<MaterialRequestsPage />} />
