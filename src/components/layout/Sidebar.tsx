@@ -9,6 +9,8 @@ import {
   Settings,
   LogOut,
   User,
+  UserCircle,
+  Truck,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { useAuth } from "../../lib/auth";
@@ -24,11 +26,12 @@ interface NavItem {
 
 const NAV_ITEMS: NavItem[] = [
   { to: "/", icon: LayoutDashboard, label: "Tổng quan", end: true },
-  { to: "/khach-hang", icon: Users, label: "Khách hàng" },
+  { to: "/khach-hang", icon: UserCircle, label: "Khách hàng" },
   { to: "/cong-trinh", icon: Building2, label: "Công trình" },
-  { to: "/tai-chinh", icon: Wallet, label: "Tài chính" },
-  { to: "/vat-tu", icon: Package, label: "Vật tư" },
   { to: "/nhan-su", icon: Users, label: "Nhân sự" },
+  { to: "/nha-cung-cap", icon: Truck, label: "Nhà cung cấp" },
+  { to: "/vat-tu", icon: Package, label: "Vật tư" },
+  { to: "/tai-chinh", icon: Wallet, label: "Tài chính" },
   { to: "/tai-lieu", icon: FileText, label: "Tài liệu" },
   { to: "/cau-hinh", icon: Settings, label: "Cấu hình" },
 ];

@@ -6,6 +6,10 @@ import { DashboardPage } from "./pages/DashboardPage";
 import { PlaceholderPage } from "./pages/PlaceholderPage";
 import LoginPage from "./pages/LoginPage";
 import ClientsPage from "./pages/ClientsPage";
+import ProjectsPage from "./pages/ProjectsPage";
+import EmployeesPage from "./pages/EmployeesPage";
+import SuppliersPage from "./pages/SuppliersPage";
+import MaterialsPage from "./pages/MaterialsPage";
 
 export default function App() {
   return (
@@ -22,21 +26,13 @@ export default function App() {
           >
             <Route index element={<DashboardPage />} />
             <Route path="/khach-hang" element={<ClientsPage />} />
-            <Route
-              path="/cong-trinh"
-              element={<PlaceholderPage title="Công trình" />}
-            />
+            <Route path="/cong-trinh" element={<ProjectsPage />} />
+            <Route path="/nhan-su" element={<EmployeesPage />} />
+            <Route path="/nha-cung-cap" element={<SuppliersPage />} />
+            <Route path="/vat-tu" element={<MaterialsPage />} />
             <Route
               path="/tai-chinh"
               element={<PlaceholderPage title="Tài chính" />}
-            />
-            <Route
-              path="/vat-tu"
-              element={<PlaceholderPage title="Vật tư" />}
-            />
-            <Route
-              path="/nhan-su"
-              element={<PlaceholderPage title="Nhân sự" />}
             />
             <Route
               path="/tai-lieu"
