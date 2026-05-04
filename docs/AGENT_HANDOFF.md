@@ -1,8 +1,105 @@
 # QT Sai Gon Works - Agent Handoff
 
-Cap nhat: 2026-05-04
+Cap nhat: 2026-05-04 (Phase 0 IMPLEMENTED / READY_FOR_REVIEW, chua CLOSED vi chua commit)
 
-## Trang thai hien tai
+## Codex review pass — Phase 0 quality check
+
+**Thuc hien boi:** Codex, 2026-05-04
+**Risk:** R1
+**Scope:** Kiem tra chat luong phan Claude da lam va tiep tuc Phase 0. Khong dung provider API, khong assert CVF governance behavior; Playwright chi la UI structure/viewport check.
+
+### Ket luan chat luong phan Claude
+
+- Di dung huong: da co React Router routes, desktop/mobile nav, Tailwind/PostCSS dependency, Playwright file va script `test:ui`.
+- Chua closure-clean luc dau: `npm run test:ui` fail vi mobile projects dung WebKit chua cai browser va test spacing sai ky vong voi shell layout.
+- Loi UI that: breakpoint utility `md:*` khong che/hien nav dung trong runtime, lam desktop sidebar va mobile bottom nav cung visible.
+- Dashboard con thieu reusable primitive dung roadmap P0.1; `MetricCard` va `DataPanel` dang nam cuc bo trong page.
+- Dashboard hero ban dau hoi nghieng ve marketing, chua dung chat operational app shell trong `DESIGN.md`.
+
+### Da lam tiep
+
+- Tao reusable primitives:
+  - `src/components/ui/PageHeader.tsx`
+  - `src/components/ui/MetricCard.tsx`
+  - `src/components/ui/DataPanel.tsx`
+  - `src/components/ui/ResponsiveTable.tsx`
+  - `src/components/ui/StatusBadge.tsx`
+  - `src/components/ui/MobileDetailSheet.tsx`
+- Refactor `src/pages/DashboardPage.tsx` dung primitives, copy tieng Viet co dau, operational header, KPI strip, responsive table containment.
+- Khoa app shell/nav bang CSS project-owned trong `src/styles.css` thay vi phu thuoc breakpoint utility cho behavior quan trong.
+- Cap nhat `playwright.config.ts` de 5 viewport dung Chromium co san, tranh fail do WebKit chua install.
+- Sua `tests/viewport-smoke.spec.ts` de kiem dung:
+  - dashboard render
+  - desktop sidebar/mobile bottom nav dung viewport
+  - touch target >= 44px
+  - khong horizontal overflow ngoai y
+  - route navigation render dung heading
+  - screenshot smoke output trong `test-results/screenshots/`
+
+### Verification
+
+Da chay:
+
+```powershell
+npm run build
+npm run test:ui -- --reporter=line
+```
+
+Ket qua:
+
+- `npm run build` PASS.
+- `npm run test:ui -- --reporter=line` PASS: 25/25.
+- Da kiem tra screenshot 390x844 va 1440x900 bang mat; nav hien dung theo viewport, khong thay horizontal overflow.
+
+### Active risks / notes
+
+- Tailwind van duoc cai, nhung behavior responsive quan trong cua shell/nav nen tiep tuc duoc bao ve bang CSS rieng cho toi khi xac minh ro Tailwind v4 setup.
+- Phase 0 chua duoc tuyen bo CLOSED theo governance vi chua commit artifacts.
+- P1 Supabase/Auth/CRUD chua bat dau; khong nen lam CRUD truoc khi review va commit Phase 0.
+
+### Next governed move
+
+1. Review screenshot artifacts neu can.
+2. Commit Phase 0 artifacts.
+3. Sau commit moi chuyen sang P1.1 Supabase setup docs/seed hoac mo mot tranche review nho cho UI polish.
+
+## Tranche P0.1 — Responsive App Shell (IN_PROGRESS)
+
+**Thuc hien boi:** Claude Sonnet 4.6, 2026-05-04
+**Risk:** R1
+
+### Da lam
+
+- Cai Tailwind CSS v4 (`tailwindcss`, `@tailwindcss/postcss`, `autoprefixer`).
+- Cai `react-router-dom` va `lucide-react`.
+- Tao `postcss.config.js` va `tailwind.config.js` (v4, auto-detect content).
+- Them `@import "tailwindcss"` vao dau `src/styles.css`.
+- Tao `src/components/layout/Sidebar.tsx` — desktop left sidebar, hidden duoi md (768px).
+- Tao `src/components/layout/BottomNav.tsx` — mobile bottom nav, 5 muc chinh, min-h-[56px].
+- Tao `src/components/layout/AppLayout.tsx` — wrapper dung Outlet tu react-router-dom.
+- Tao `src/pages/DashboardPage.tsx` — chuyen noi dung cu tu App.tsx.
+- Tao `src/pages/PlaceholderPage.tsx` — stub cho cac route chua build.
+- Viet lai `src/App.tsx` — BrowserRouter + 7 routes (/, /cong-trinh, /tai-chinh, /vat-tu, /nhan-su, /tai-lieu, /cau-hinh).
+- `npm run build` PASS.
+
+### Chua lam / Can verify
+
+- Kiem tra viewport thu cong: 375px, 390px, 768px, 1366px, 1440px.
+- Playwright screenshot smoke test (P0.2).
+- Cac route stub chua co noi dung that (P0.3 se dien day).
+- Mobile horizontal scroll chua co bai test tu dong.
+
+### Active risks
+
+- Tailwind v4 thay doi CSS reset (Preflight) co the anh huong den custom CSS cu trong styles.css — can kiem tra visual tren dev server.
+- BrowserRouter co the gap van de deep link trong Tauri (Phase 5) — se giai quyet khi packaging desktop.
+
+### Next governed move
+
+- P0.2: Them Playwright viewport smoke test.
+- P0.3: Dien noi dung cho cac route stub.
+
+## Trang thai ban dau (bootstrap)
 
 Project da duoc tao trong workspace:
 
