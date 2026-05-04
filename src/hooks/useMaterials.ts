@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '../lib/supabase';
+import { useAuth } from '../lib/auth';
 
 export interface MaterialItem {
   id: string;
@@ -31,14 +32,16 @@ export function useMaterials() {
 
 export function useCreateMaterial() {
   const queryClient = useQueryClient();
+  const { profile } = useAuth();
 
   return useMutation({
     mutationFn: async (input: MaterialInput) => {
       if (!supabase) throw new Error('Supabase chưa được cấu hình');
+      if (!profile?.company_id) throw new Error('Không tìm thấy công ty hiện tại');
 
       const { data, error } = await supabase
         .from('material_items')
-        .insert([input])
+        .insert([{ ...input, company_id: profile.company_id }])
         .select()
         .single();
 

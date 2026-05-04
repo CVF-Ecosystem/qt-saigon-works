@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '../lib/supabase';
+import { useAuth } from '../lib/auth';
 
 export interface Supplier {
   id: string;
@@ -33,14 +34,16 @@ export function useSuppliers() {
 
 export function useCreateSupplier() {
   const queryClient = useQueryClient();
+  const { profile } = useAuth();
 
   return useMutation({
     mutationFn: async (input: SupplierInput) => {
       if (!supabase) throw new Error('Supabase chưa được cấu hình');
+      if (!profile?.company_id) throw new Error('Không tìm thấy công ty hiện tại');
 
       const { data, error } = await supabase
         .from('suppliers')
-        .insert([input])
+        .insert([{ ...input, company_id: profile.company_id }])
         .select()
         .single();
 

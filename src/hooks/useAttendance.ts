@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '../lib/supabase';
+import { useAuth } from '../lib/auth';
 
 export interface AttendanceEntry {
   id: string;
@@ -61,22 +62,19 @@ export function useAttendance(filters?: { projectId?: string; employeeId?: strin
 
 export function useCreateAttendance() {
   const queryClient = useQueryClient();
+  const { profile } = useAuth();
+
   return useMutation({
     mutationFn: async (input: AttendanceInput) => {
       if (!supabase) throw new Error('Supabase not configured');
-
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('id, company_id')
-        .eq('id', (await supabase.auth.getUser()).data.user?.id)
-        .single();
+      if (!profile?.company_id) throw new Error('Không tìm thấy công ty hiện tại');
 
       const { data, error } = await supabase
         .from('attendance_entries')
         .insert({
           ...input,
-          company_id: profile?.company_id,
-          created_by: profile?.id,
+          company_id: profile.company_id,
+          created_by: profile.id,
         })
         .select()
         .single();

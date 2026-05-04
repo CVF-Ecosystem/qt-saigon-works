@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '../lib/supabase';
+import { useAuth } from '../lib/auth';
 
 export interface Employee {
   id: string;
@@ -35,14 +36,16 @@ export function useEmployees() {
 
 export function useCreateEmployee() {
   const queryClient = useQueryClient();
+  const { profile } = useAuth();
 
   return useMutation({
     mutationFn: async (input: EmployeeInput) => {
       if (!supabase) throw new Error('Supabase chưa được cấu hình');
+      if (!profile?.company_id) throw new Error('Không tìm thấy công ty hiện tại');
 
       const { data, error } = await supabase
         .from('employees')
-        .insert([input])
+        .insert([{ ...input, company_id: profile.company_id }])
         .select()
         .single();
 

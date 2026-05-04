@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '../lib/supabase';
+import { useAuth } from '../lib/auth';
 
 export type PaymentDirection = 'in' | 'out';
 export type PaymentStatus = 'draft' | 'review' | 'approved' | 'rejected' | 'ordered' | 'delivered' | 'paid' | 'closed';
@@ -64,22 +65,19 @@ export function usePayments(projectId?: string) {
 
 export function useCreatePayment() {
   const queryClient = useQueryClient();
+  const { profile } = useAuth();
+
   return useMutation({
     mutationFn: async (input: PaymentInput) => {
       if (!supabase) throw new Error('Supabase not configured');
-
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('id, company_id')
-        .eq('id', (await supabase.auth.getUser()).data.user?.id)
-        .single();
+      if (!profile?.company_id) throw new Error('Không tìm thấy công ty hiện tại');
 
       const { data, error } = await supabase
         .from('payments')
         .insert({
           ...input,
-          company_id: profile?.company_id,
-          created_by: profile?.id,
+          company_id: profile.company_id,
+          created_by: profile.id,
         })
         .select()
         .single();
