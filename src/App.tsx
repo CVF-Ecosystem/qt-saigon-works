@@ -5,6 +5,7 @@ import ProtectedRoute from "./components/layout/ProtectedRoute";
 import { DashboardPage } from "./pages/DashboardPage";
 import { PlaceholderPage } from "./pages/PlaceholderPage";
 import LoginPage from "./pages/LoginPage";
+import ClientsPage from "./pages/ClientsPage";
 
 export default function App() {
   return (
@@ -20,6 +21,7 @@ export default function App() {
             }
           >
             <Route index element={<DashboardPage />} />
+            <Route path="/khach-hang" element={<ClientsPage />} />
             <Route
               path="/cong-trinh"
               element={<PlaceholderPage title="Công trình" />}
