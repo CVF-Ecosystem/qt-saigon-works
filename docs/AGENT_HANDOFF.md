@@ -108,15 +108,17 @@ Per `docs/ROADMAP.md` P1.1:
   - Policies loc qua `journal_entries` cho `journal_lines`
   - Seed QT Sai Gon company (`00000000-0000-0000-0000-000000000001`)
   - Seed 5 cost categories mac dinh
+- ✅ User cung cap Supabase credentials
+- ✅ Tao `.env.local` voi credentials (local-only, da verify khong bi track boi git)
+- ✅ Verify build pass voi Supabase configured
 
-### Chua lam
+### Chua lam (Cho user action)
 
-- Cho user tao Supabase project va cung cap URL/anon key
-- Cho user chay migration theo huong dan
-- Cho user tao bucket `project-documents` va storage policies
-- Cho user tao owner user dau tien
-- Cho user chay seed data (tuy chon)
-- Tao `.env.local` khi user da co credentials
+- User can chay migration `0001_initial_schema.sql` trong Supabase SQL Editor
+- User can tao bucket `project-documents` va storage policies (xem Buoc 7 trong `docs/SUPABASE_SETUP.md`)
+- User can bat Auth Email provider (xem Buoc 6 trong `docs/SUPABASE_SETUP.md`)
+- User can tao owner user dau tien (xem Buoc 8 trong `docs/SUPABASE_SETUP.md`)
+- User can chay seed data `supabase/seed.sql` (tuy chon, xem Buoc 10)
 
 ### Active risks
 
