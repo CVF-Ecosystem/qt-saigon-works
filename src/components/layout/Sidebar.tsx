@@ -13,6 +13,7 @@ import {
   ClipboardList,
   ShoppingCart,
   UserCircle,
+  BarChart3,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { useAuth } from "../../lib/auth";
@@ -41,7 +42,10 @@ const NAV_GROUPS: NavGroup[] = [
   },
   {
     label: "Tài chính",
-    items: [{ to: "/tai-chinh", icon: Wallet, label: "Tài chính" }],
+    items: [
+      { to: "/tai-chinh", icon: Wallet, label: "Tài chính" },
+      { to: "/bao-cao", icon: BarChart3, label: "Báo cáo" },
+    ],
   },
   {
     label: "Vật tư",
