@@ -1,4 +1,5 @@
-type StatusBadgeTone = "success" | "warning" | "info" | "neutral" | "danger";
+export type BadgeTone = "success" | "warning" | "info" | "neutral" | "danger";
+type StatusBadgeTone = BadgeTone;
 
 const toneClass: Record<StatusBadgeTone, string> = {
   success: "status-badge status-badge-success",

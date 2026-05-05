@@ -18,6 +18,7 @@ const MaterialRequestsPage = lazy(() => import("./pages/MaterialRequestsPage"));
 const PurchaseOrdersPage = lazy(() => import("./pages/PurchaseOrdersPage"));
 const FinancePage = lazy(() => import("./pages/FinancePage"));
 const AttendancePage = lazy(() => import("./pages/AttendancePage"));
+const DocumentsPage = lazy(() => import("./pages/DocumentsPage"));
 
 function PageLoading() {
   return (
@@ -55,10 +56,7 @@ export default function App() {
             <Route path="/yeu-cau-vat-tu" element={<MaterialRequestsPage />} />
             <Route path="/don-mua-vat-tu" element={<PurchaseOrdersPage />} />
             <Route path="/tai-chinh" element={<FinancePage />} />
-            <Route
-              path="/tai-lieu"
-              element={<PlaceholderPage title="Tài liệu" />}
-            />
+            <Route path="/tai-lieu" element={<DocumentsPage />} />
             <Route
               path="/cau-hinh"
               element={<PlaceholderPage title="Cấu hình" />}

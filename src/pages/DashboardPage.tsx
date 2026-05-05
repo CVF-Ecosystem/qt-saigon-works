@@ -1,49 +1,22 @@
-import { Building2, Banknote, ClipboardList, TrendingUp, AlertCircle } from 'lucide-react';
+import { Building2, Banknote, ClipboardList, TrendingUp } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { DataPanel } from '../components/ui/DataPanel';
 import { MetricCard } from '../components/ui/MetricCard';
 import { PageHeader } from '../components/ui/PageHeader';
 import { StatusBadge } from '../components/ui/StatusBadge';
+import { InlineLoading } from '../components/ui/LoadingSpinner';
 import { isSupabaseConfigured } from '../lib/supabase';
 import { getRuntimeTarget } from '../lib/runtime';
+import {
+  projectStatusLabel,
+  projectStatusTone,
+  costStatusLabel,
+  costStatusTone,
+} from '../lib/labels';
 import { useProjects } from '../hooks/useProjects';
 import { useProjectFinance } from '../hooks/useProjectFinance';
 import { useCosts } from '../hooks/useCosts';
 import { formatCompactVnd } from '../utils/format';
-
-const statusLabels: Record<string, string> = {
-  preparing: 'Chuẩn bị',
-  active: 'Đang thi công',
-  paused: 'Tạm dừng',
-  handover: 'Nghiệm thu',
-  warranty: 'Bảo hành',
-  closed: 'Đóng',
-};
-
-const statusTones: Record<string, 'success' | 'warning' | 'info' | 'neutral' | 'danger'> = {
-  preparing: 'info',
-  active: 'success',
-  paused: 'warning',
-  handover: 'info',
-  warranty: 'neutral',
-  closed: 'neutral',
-};
-
-const costStatusLabels: Record<string, string> = {
-  draft: 'Nháp',
-  review: 'Đang duyệt',
-  approved: 'Đã duyệt',
-  rejected: 'Từ chối',
-  paid: 'Đã TT',
-};
-
-const costStatusTones: Record<string, 'success' | 'warning' | 'info' | 'neutral' | 'danger'> = {
-  draft: 'neutral',
-  review: 'warning',
-  approved: 'info',
-  rejected: 'danger',
-  paid: 'success',
-};
 
 export function DashboardPage() {
   const { data: projects, isLoading: projectsLoading } = useProjects();
@@ -141,9 +114,7 @@ export function DashboardPage() {
         </div>
 
         {projectsLoading ? (
-          <div className="flex items-center justify-center py-10">
-            <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
-          </div>
+          <InlineLoading />
         ) : projects?.length === 0 ? (
           <div className="bg-slate-800/50 rounded-xl border border-slate-700 p-8 text-center">
             <p className="text-slate-400 mb-3">Chưa có công trình nào</p>
@@ -178,8 +149,8 @@ export function DashboardPage() {
                           )}
                         </td>
                         <td className="px-6 py-4">
-                          <StatusBadge tone={statusTones[project.status] || 'neutral'}>
-                            {statusLabels[project.status] || project.status}
+                          <StatusBadge tone={projectStatusTone(project.status)}>
+                            {projectStatusLabel(project.status)}
                           </StatusBadge>
                         </td>
                         <td className="px-6 py-4 text-right text-white">{project.progress_percent}%</td>
@@ -213,8 +184,8 @@ export function DashboardPage() {
                         <div className="font-mono text-xs text-blue-400 mb-1">{project.code}</div>
                         <div className="font-semibold text-white">{project.name}</div>
                       </div>
-                      <StatusBadge tone={statusTones[project.status] || 'neutral'}>
-                        {statusLabels[project.status] || project.status}
+                      <StatusBadge tone={projectStatusTone(project.status)}>
+                        {projectStatusLabel(project.status)}
                       </StatusBadge>
                     </div>
                     <div className="flex items-center justify-between text-sm">
@@ -246,9 +217,7 @@ export function DashboardPage() {
       <section className="split" id="finance">
         <DataPanel title="Chi phí cần xử lý" eyebrow="Tài chính">
           {costsLoading ? (
-            <div className="flex items-center justify-center py-6">
-              <div className="w-6 h-6 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
-            </div>
+            <InlineLoading />
           ) : pendingCosts.length === 0 ? (
             <div className="text-center py-6">
               <p className="text-slate-400 text-sm">Không có chi phí cần xử lý</p>
@@ -266,8 +235,8 @@ export function DashboardPage() {
                   </div>
                   <div className="right">
                     <strong>{formatCompactVnd(cost.amount)}</strong>
-                    <StatusBadge tone={costStatusTones[cost.status] || 'neutral'}>
-                      {costStatusLabels[cost.status] || cost.status}
+                    <StatusBadge tone={costStatusTone(cost.status)}>
+                      {costStatusLabel(cost.status)}
                     </StatusBadge>
                   </div>
                 </div>
@@ -283,9 +252,7 @@ export function DashboardPage() {
 
         <DataPanel title="Tình hình phải thu" eyebrow="Công nợ">
           {financeLoading ? (
-            <div className="flex items-center justify-center py-6">
-              <div className="w-6 h-6 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
-            </div>
+            <InlineLoading />
           ) : (
             <div className="table-list">
               {financeSummaries?.filter((f) => f.receivable > 0).slice(0, 5).map((f) => (
@@ -311,49 +278,6 @@ export function DashboardPage() {
             <Link to="/tai-chinh" className="text-sm text-blue-400 hover:text-blue-300">
               Xem chi tiết →
             </Link>
-          </div>
-        </DataPanel>
-      </section>
-
-      {/* Quick links */}
-      <section className="split" id="quick-links">
-        <DataPanel title="Truy cập nhanh" eyebrow="Navigation">
-          <div className="table-list">
-            {[
-              { to: '/cong-trinh', label: 'Quản lý công trình', desc: 'Thêm, sửa, theo dõi tiến độ' },
-              { to: '/tai-chinh', label: 'Tài chính', desc: 'Chi phí, thu chi, lợi nhuận' },
-              { to: '/vat-tu', label: 'Vật tư', desc: 'Danh mục vật tư xây dựng' },
-              { to: '/nhan-su', label: 'Nhân sự', desc: 'Hồ sơ nhân viên' },
-            ].map((item) => (
-              <Link key={item.to} to={item.to} className="table-row hover:bg-slate-700/30 transition rounded-lg px-2">
-                <div>
-                  <strong>{item.label}</strong>
-                  <p>{item.desc}</p>
-                </div>
-                <AlertCircle size={16} className="text-slate-500" />
-              </Link>
-            ))}
-          </div>
-        </DataPanel>
-
-        <DataPanel title="Thông tin hệ thống" eyebrow="System">
-          <div className="table-list">
-            <div className="table-row">
-              <div><strong>Supabase</strong><p>Backend database</p></div>
-              <StatusBadge tone={isSupabaseConfigured ? 'success' : 'warning'}>
-                {isSupabaseConfigured ? 'Đã kết nối' : 'Chưa cấu hình'}
-              </StatusBadge>
-            </div>
-            <div className="table-row">
-              <div><strong>Runtime</strong><p>Môi trường chạy</p></div>
-              <StatusBadge tone="info">
-                {runtimeTarget === 'desktop' ? 'Desktop' : 'Web'}
-              </StatusBadge>
-            </div>
-            <div className="table-row">
-              <div><strong>Phiên bản</strong><p>QT Sai Gon Works</p></div>
-              <span className="text-slate-400 text-sm">v0.1.0</span>
-            </div>
           </div>
         </DataPanel>
       </section>

@@ -1,6 +1,96 @@
 # QT Sai Gon Works - Agent Handoff
 
-Cap nhat: 2026-05-05 (UI refresh CLOSED / P2.2-P2.3 clean)
+Cap nhat: 2026-05-05 (P2.4 Documents CLOSED / Sprint UI-1 CLOSED)
+
+## Tranche P2.4 — Documents (CLOSED)
+
+**Thuc hien boi:** Claude Sonnet 4.6, 2026-05-05
+**Risk:** R2 (Supabase Storage, RLS boundary, signed URL)
+**Status:** CLOSED
+
+### Artifacts (P2.4)
+
+- Tao `src/hooks/useDocuments.ts`:
+  - `useDocuments(projectId?)` — list tu bang `documents`, join `projects` + `profiles`
+  - `useUploadDocument()` — upload file len bucket `project-documents`, sau do insert row vao `documents`; neu insert fail thi cleanup file tren Storage
+  - `useDeleteDocument()` — xoa row DB truoc, xoa file Storage sau
+  - `getSignedUrl(storagePath)` — tao signed URL 1h, khong expose raw path ra UI
+- Them document type labels/tones vao `src/lib/labels.ts`:
+  - Type: `contract | invoice | handover | photo | payment_dossier | other`
+  - Helper: `documentTypeLabel()`, `documentTypeTone()`
+- Tao `src/pages/DocumentsPage.tsx`:
+  - Filter by project (select dropdown)
+  - Desktop: table (Ten tai lieu, Loai, Cong trinh, Ngay tai, Thao tac)
+  - Mobile: card list
+  - Upload modal: title, document_type, project (optional), file input
+  - Download: get signed URL → open tab (khong expose storage_path)
+  - Delete: confirm → xoa DB + Storage
+  - Empty state dung `EmptyState` component
+  - Loading dung `InlineLoading` component
+- Them CSS primitives vao `src/styles.css`:
+  - `.btn`, `.btn-primary`, `.btn-secondary`
+  - `.icon-btn`, `.icon-btn-danger`
+  - `.form-field`, `.form-label`, `.form-input`, `.form-select`
+  - `.filter-bar`
+  - `.modal-overlay`, `.modal-card`, `.modal-header`, `.modal-title`, `.modal-body`, `.modal-footer`
+- Cap nhat `src/App.tsx`: route `/tai-lieu` -> `DocumentsPage` (lazy)
+
+### Storage path (P2.4)
+
+`{company_id}/{project_id | 'general'}/{uuid}.{ext}`
+
+Signed URL TTL: 3600s. Raw `storage_path` chi luu trong DB, khong hien ra UI.
+
+### Build result (P2.4)
+
+- `npm run build` PASS. DocumentsPage chunk: 11.30 kB gzip 3.66 kB.
+- Manual test can duoc voi Supabase that: upload file, xem list, download, delete.
+
+### Phase 2 closure
+
+Phase 2 - Daily Operations MVP da hoan thanh day du:
+
+- P2.1 Finance CLOSED
+- P2.2 Materials Workflow CLOSED
+- P2.3 HRM Lite CLOSED
+- P2.4 Documents CLOSED
+
+Tiep theo: Phase 3 - Reporting And Export (can approval moi), hoac production hardening.
+
+---
+
+---
+
+## 🔴 EA Review Gate — Design System Architecture (2026-05-05)
+
+**Status:** ⏸️ Awaiting Codex rebuttal before Sprint UI-1 execution
+**Reference:** [EA_UI_UX_REVIEW_2026_05_05.md](EA_UI_UX_REVIEW_2026_05_05.md)
+
+Enterprise Architect identified critical design system debt from Codex P0.1→P2.3 work:
+
+**P0 Issues (must fix):**
+
+- P0-1: Specificity war (30+ `!important` overrides fighting Tailwind utilities)
+- P0-2: Font-weight rendering (750/760/720 fallback without Inter Variable)
+- P0-3: 3 accent colors for same semantic (indigo, teal, blue) → brand confusion
+- P0-4: Accessibility contrast fail (4.4:1 WCAG boundary on 9-10px labels)
+
+**P1 Issues (UX/IA):**
+
+- Dashboard overload (8 sections + duplicate Quick Links + misplaced System Info)
+- Sidebar grouping needs restructure (Danh mục / Hệ thống separate)
+- Missing: ⌘K search, topbar user menu, skeleton loaders, breadcrumb, empty states, ResponsiveTable component
+
+**Decision points for Codex:**
+
+1. **Architecture:** Tailwind-first or CSS-first?
+2. **Font loading:** Import Inter Variable or standard weights only?
+3. **Timeline:** Sprint UI-1 (3-5d) **before** P2.4 (serial) or **parallel**?
+4. **Mobile nav:** Role-aware bottom nav (owner ≠ site supervisor)?
+
+**Blocker:** No P2.4 Documents work until Codex resolves UI-1 architecture + timeline.
+
+---
 
 ## Codex IA refresh — Grouped modules navigation
 

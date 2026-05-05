@@ -9,10 +9,10 @@ import {
   Settings,
   LogOut,
   User,
-  UserCircle,
   Truck,
   ClipboardList,
   ShoppingCart,
+  UserCircle,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { useAuth } from "../../lib/auth";
@@ -33,16 +33,15 @@ interface NavGroup {
 
 const NAV_GROUPS: NavGroup[] = [
   {
-    label: "Điều hành",
-    items: [{ to: "/", icon: LayoutDashboard, label: "Tổng quan", end: true }],
-  },
-  {
     label: "Công trình",
     items: [
       { to: "/cong-trinh", icon: Building2, label: "Công trình" },
-      { to: "/tai-chinh", icon: Wallet, label: "Tài chính" },
       { to: "/tai-lieu", icon: FileText, label: "Tài liệu" },
     ],
+  },
+  {
+    label: "Tài chính",
+    items: [{ to: "/tai-chinh", icon: Wallet, label: "Tài chính" }],
   },
   {
     label: "Vật tư",
@@ -61,34 +60,46 @@ const NAV_GROUPS: NavGroup[] = [
     ],
   },
   {
-    label: "Quản trị",
-    items: [
-      { to: "/khach-hang", icon: UserCircle, label: "Khách hàng" },
-      { to: "/cau-hinh", icon: Settings, label: "Cấu hình" },
-    ],
+    label: "Danh mục",
+    items: [{ to: "/khach-hang", icon: UserCircle, label: "Khách hàng" }],
+  },
+  {
+    label: "Hệ thống",
+    items: [{ to: "/cau-hinh", icon: Settings, label: "Cấu hình" }],
   },
 ];
+
+const ROLE_LABELS: Record<string, string> = {
+  owner: "Chủ doanh nghiệp",
+  accountant: "Kế toán",
+  project_manager: "Quản lý dự án",
+  site_supervisor: "Chỉ huy công trường",
+  hr: "Nhân sự",
+  viewer: "Xem",
+};
 
 export function Sidebar() {
   const { profile, signOut } = useAuth();
 
-  const roleLabels: Record<string, string> = {
-    owner: 'Chủ doanh nghiệp',
-    accountant: 'Kế toán',
-    project_manager: 'Quản lý dự án',
-    site_supervisor: 'Chỉ huy công trường',
-    hr: 'Nhân sự',
-    viewer: 'Xem',
-  };
-
   return (
     <aside className="sidebar">
       <div className="sidebar-brand">
-        <p>Construction ops</p>
         <h1>{companyName}</h1>
       </div>
 
       <nav className="sidebar-nav" aria-label="Main navigation">
+        {/* Dashboard — standalone, no group */}
+        <NavLink
+          to="/"
+          end
+          className={({ isActive }) =>
+            ["sidebar-link", isActive ? "sidebar-link-active" : "sidebar-link-idle"].join(" ")
+          }
+        >
+          <LayoutDashboard size={18} aria-hidden="true" />
+          <span>Tổng quan</span>
+        </NavLink>
+
         {NAV_GROUPS.map((group) => (
           <section className="sidebar-group" key={group.label}>
             <h2 className="sidebar-group-label">{group.label}</h2>
@@ -99,13 +110,10 @@ export function Sidebar() {
                     to={to}
                     end={end}
                     className={({ isActive }) =>
-                      [
-                        "sidebar-link",
-                        isActive ? "sidebar-link-active" : "sidebar-link-idle",
-                      ].join(" ")
+                      ["sidebar-link", isActive ? "sidebar-link-active" : "sidebar-link-idle"].join(" ")
                     }
                   >
-                    <Icon size={20} aria-hidden="true" />
+                    <Icon size={18} aria-hidden="true" />
                     <span>{label}</span>
                   </NavLink>
                 </li>
@@ -117,30 +125,27 @@ export function Sidebar() {
 
       <div className="sidebar-footer">
         {profile && (
-          <div className="mb-4 p-3 bg-slate-800/50 rounded-lg border border-slate-700">
-            <div className="flex items-center gap-2 mb-2">
-              <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
-                <User size={16} className="text-white" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-white truncate">
-                  {profile.full_name}
-                </p>
-                <p className="text-xs text-slate-400">
-                  {roleLabels[profile.role] || profile.role}
-                </p>
-              </div>
+          <div className="sidebar-user-card">
+            <div className="sidebar-user-avatar">
+              <User size={15} aria-hidden="true" />
+            </div>
+            <div className="sidebar-user-info">
+              <p className="sidebar-user-name">{profile.full_name}</p>
+              <p className="sidebar-user-role">
+                {ROLE_LABELS[profile.role] ?? profile.role}
+              </p>
             </div>
             <button
+              type="button"
               onClick={() => signOut()}
-              className="w-full flex items-center justify-center gap-2 px-3 py-2 text-sm text-slate-300 hover:text-white hover:bg-slate-700/50 rounded transition"
+              className="sidebar-logout-btn"
+              aria-label="Đăng xuất"
+              title="Đăng xuất"
             >
-              <LogOut size={16} />
-              <span>Đăng xuất</span>
+              <LogOut size={15} aria-hidden="true" />
             </button>
           </div>
         )}
-        <p className="text-slate-500 text-xs">QT Sai Gon Works v0.1</p>
       </div>
     </aside>
   );
