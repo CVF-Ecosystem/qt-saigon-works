@@ -1,6 +1,42 @@
 # QT Sai Gon Works - Agent Handoff
 
-Cap nhat: 2026-05-05 (P2.2/P2.3 cleanup CLOSED / build + UI + live CRUD PASS)
+Cap nhat: 2026-05-05 (UI refresh CLOSED / P2.2-P2.3 clean)
+
+## Codex design refresh — Professional command workspace
+
+**Thuc hien boi:** Codex, 2026-05-05
+**Risk:** R1 (UI presentation + responsive shell)
+**Status:** CLOSED
+
+### Context
+
+Giao dien cu bi lech he: sidebar dark, content light, table/panel dark nua voi, nhieu trang thieu page padding, header qua lon nhu hero marketing. Tong the khong dat muc "professional command workspace" trong CVF `DESIGN.md`.
+
+### Da sua
+
+- Refresh `src/styles.css` theo dark operational workspace:
+  - Charcoal page background, dark surfaces, consistent borders/shadows.
+  - Compact page header, khong con hero-style heading qua lon.
+  - Unified metric cards, status strip, panels, tables, status badges.
+  - Sidebar active state tinh gon hon, co accent marker.
+  - Mobile bottom nav dark blur, dong bo voi app shell.
+- Them global page padding/max-width cho cac page dang dung wrapper `space-y-6`, tranh layout bi sat sidebar/top.
+- Kiem tra visual voi Playwright screenshots tren dashboard, finance, materials, login o desktop/mobile; co test them voi account Supabase that de xem data render that.
+
+### Verification
+
+Da chay:
+
+```powershell
+npm run build
+npm run test:ui -- --reporter=line
+```
+
+Ket qua:
+
+- `npm run build` PASS.
+- `npm run test:ui -- --reporter=line` PASS: 30/30.
+- Manual visual smoke PASS tren 390px va 1440px voi data that.
 
 ## Codex cleanup pass — P2.2 Materials / pre-Claude handoff
 
