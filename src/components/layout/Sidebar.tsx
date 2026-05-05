@@ -14,9 +14,12 @@ import {
   ShoppingCart,
   UserCircle,
   BarChart3,
+  Sun,
+  Moon,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { useAuth } from "../../lib/auth";
+import { useTheme } from "../../lib/theme";
 
 const companyName = import.meta.env.VITE_APP_COMPANY_NAME || "QT Sai Gon";
 
@@ -84,6 +87,7 @@ const ROLE_LABELS: Record<string, string> = {
 
 export function Sidebar() {
   const { profile, signOut } = useAuth();
+  const { theme, toggle } = useTheme();
 
   return (
     <aside className="sidebar">
@@ -128,6 +132,20 @@ export function Sidebar() {
       </nav>
 
       <div className="sidebar-footer">
+        <button
+          type="button"
+          onClick={toggle}
+          className="sidebar-theme-btn"
+          aria-label={theme === "dark" ? "Chuyển chế độ sáng" : "Chuyển chế độ tối"}
+        >
+          {theme === "dark" ? (
+            <Sun size={14} aria-hidden="true" />
+          ) : (
+            <Moon size={14} aria-hidden="true" />
+          )}
+          <span>{theme === "dark" ? "Chế độ sáng" : "Chế độ tối"}</span>
+        </button>
+
         {profile && (
           <div className="sidebar-user-card">
             <div className="sidebar-user-avatar">

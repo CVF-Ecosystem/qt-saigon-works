@@ -1552,3 +1552,189 @@ body {
   justify-content: flex-end;
   padding-top: 8px;
 }
+
+/* ─── Light theme ────────────────────────────────────────────────────────── */
+
+[data-theme="light"] {
+  /* qt-* design tokens */
+  --qt-bg-shell: #e2e8f0;
+  --qt-bg-page: #f0f4f8;
+  --qt-surface: #ffffff;
+  --qt-surface-2: #f8fafc;
+  --qt-surface-3: #f1f5f9;
+  --qt-border: rgba(0, 0, 0, 0.08);
+  --qt-border-strong: rgba(0, 0, 0, 0.14);
+  --qt-text: #0f172a;
+  --qt-text-2: #475569;
+  --qt-text-3: #64748b;
+  --qt-accent: #4f46e5;
+  --qt-accent-2: #4f46e5;
+  --qt-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+
+  /* Tailwind @theme token overrides (used by bg-surface-2, text-text, etc.) */
+  --color-surface: #ffffff;
+  --color-surface-2: #f8fafc;
+  --color-surface-3: #f1f5f9;
+  --color-page: #f0f4f8;
+  --color-shell: #e2e8f0;
+  --color-text: #0f172a;
+  --color-muted: #475569;
+  --color-subtle: #64748b;
+  --color-border: rgb(0 0 0 / 0.08);
+  --color-border-strong: rgb(0 0 0 / 0.14);
+  --color-brand: #4f46e5;
+  --color-brand-hover: #4338ca;
+}
+
+/* Global backgrounds in light mode */
+[data-theme="light"] html,
+[data-theme="light"] body {
+  background: var(--qt-bg-page);
+  color: var(--qt-text);
+}
+
+[data-theme="light"] .app-layout {
+  background: var(--qt-bg-page);
+  color: var(--qt-text);
+}
+
+/* Page header in light mode */
+[data-theme="light"] .page-header {
+  background: transparent;
+  border-bottom-color: var(--qt-border);
+}
+
+[data-theme="light"] .page-eyebrow {
+  color: var(--qt-accent);
+}
+
+/* Status strip */
+[data-theme="light"] .status-strip {
+  background: rgba(255, 255, 255, 0.7);
+  border-color: var(--qt-border);
+}
+
+[data-theme="light"] .status-strip > div {
+  border-color: var(--qt-border);
+}
+
+/* Metric cards */
+[data-theme="light"] .metric-card {
+  background: #ffffff;
+  border-color: var(--qt-border-strong);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+}
+
+/* Sidebar stays dark — no overrides needed */
+
+/* Bottom nav light mode */
+[data-theme="light"] .bottom-nav {
+  background: rgba(255, 255, 255, 0.85);
+  border-top-color: var(--qt-border);
+}
+
+[data-theme="light"] .bottom-nav-link-idle {
+  color: var(--qt-text-3);
+}
+
+[data-theme="light"] .bottom-nav-link-active {
+  color: var(--qt-accent);
+}
+
+/* ─── Hardcoded Tailwind slate-* overrides inside .app-main ─────────────── */
+/* These override raw Tailwind classes used in page tables and cards.        */
+
+/* Card / panel backgrounds */
+[data-theme="light"] .app-main .bg-slate-800\/50,
+[data-theme="light"] .app-main .bg-slate-800 {
+  background-color: #ffffff !important;
+}
+
+[data-theme="light"] .app-main .bg-slate-900\/50,
+[data-theme="light"] .app-main .bg-slate-900 {
+  background-color: #f8fafc !important;
+}
+
+[data-theme="light"] .app-main .bg-slate-700\/30 {
+  background-color: rgba(0, 0, 0, 0.03) !important;
+}
+
+/* Borders */
+[data-theme="light"] .app-main .border-slate-700 {
+  border-color: rgba(0, 0, 0, 0.10) !important;
+}
+
+[data-theme="light"] .app-main .border-slate-600 {
+  border-color: rgba(0, 0, 0, 0.12) !important;
+}
+
+/* Dividers */
+[data-theme="light"] .app-main .divide-slate-700 > * + * {
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Text colors */
+[data-theme="light"] .app-main .text-white {
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .app-main .text-slate-300 {
+  color: #334155 !important;
+}
+
+[data-theme="light"] .app-main .text-slate-400 {
+  color: #64748b !important;
+}
+
+[data-theme="light"] .app-main .text-slate-500 {
+  color: #94a3b8 !important;
+}
+
+/* Hover states */
+[data-theme="light"] .app-main .hover\:bg-slate-700\/30:hover {
+  background-color: rgba(0, 0, 0, 0.04) !important;
+}
+
+/* Table head */
+[data-theme="light"] .app-main thead,
+[data-theme="light"] .app-main .bg-slate-900\/50 {
+  background-color: #f1f5f9 !important;
+}
+
+/* Financial highlight colors — darken for contrast on white */
+[data-theme="light"] .app-main .text-green-400 {
+  color: #16a34a !important;
+}
+
+[data-theme="light"] .app-main .text-yellow-400 {
+  color: #b45309 !important;
+}
+
+[data-theme="light"] .app-main .text-red-400 {
+  color: #dc2626 !important;
+}
+
+[data-theme="light"] .app-main .text-blue-400 {
+  color: #2563eb !important;
+}
+
+/* Theme toggle button in sidebar */
+.sidebar-theme-btn {
+  align-items: center;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--qt-text-3, #94a3b8);
+  cursor: pointer;
+  display: flex;
+  font-size: 12px;
+  gap: 8px;
+  padding: 10px 24px;
+  transition: background 150ms ease, color 150ms ease;
+  width: 100%;
+}
+
+.sidebar-theme-btn:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #ffffff;
+}
