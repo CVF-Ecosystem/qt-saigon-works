@@ -1,6 +1,6 @@
 # QT Sai Gon Works - Implementation Roadmap
 
-Cap nhat: 2026-05-05
+Cap nhat: 2026-05-05 (session 2 — Phase 2 + Phase 3 CLOSED)
 
 ## Nguyen tac ban giao cho Claude/agent
 
@@ -46,12 +46,22 @@ Da verify:
 - `npm run test:ui -- --reporter=line`
 - Live Supabase UI smoke for attendance, core CRUD, and purchase order create/delete.
 
+Da co them (session 2 — 2026-05-05):
+
+- Sprint UI-1: design token unification, font-weight fix, WCAG contrast, sidebar IA regrouping, shared primitives (LoadingSpinner, EmptyState, labels.ts), Dashboard cleanup.
+- P2.4 Documents: upload/download/delete via Supabase Storage, signed URL, document type labels.
+- Phase 3 Reporting: /bao-cao voi 4 tab (Loi nhuan, Dong tien, Cong no, Nhan cong) + CSV export voi BOM UTF-8.
+- Light/Dark mode: ThemeProvider, localStorage persistence, system preference fallback, Sun/Moon toggle trong sidebar.
+
 Chua co:
 
-- P2.4 Documents.
-- Phase 3 reports/export.
-- Production hardening.
-- Desktop installer.
+- Phase 4 Production Hardening.
+- Phase 5 Desktop Packaging.
+- Phase 6 Accounting Expansion.
+- Playwright tests update sau Sprint UI-1 changes (label `Chỉ số tổng công ty` may drift).
+- Pagination / search / filter tren cac trang list lon.
+- Mobile form polish cho Documents upload (file picker UX tren iOS/Android).
+- FinancePage: con dung local statusLabels thay vi src/lib/labels.ts — can migrate.
 
 ## Phase 0 - Foundation Lock
 

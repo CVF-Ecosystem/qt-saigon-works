@@ -1,6 +1,41 @@
 # QT Sai Gon Works - Agent Handoff
 
-Cap nhat: 2026-05-05 (P2.4 Documents CLOSED / Sprint UI-1 CLOSED)
+Cap nhat: 2026-05-05 (Session 2 CLOSED — Phase 2 + Phase 3 + Light/Dark mode)
+
+---
+
+## Trang thai hien tai (sau session 2)
+
+**Tat ca Phase 2 da CLOSED.** Phase 3 Reporting da CLOSED. Light/dark mode da ship.
+
+### Da deploy len production
+
+- URL: `qtsaigon.netlify.app`
+- Git branch: `main` — commit moi nhat: `bee996f`
+- Netlify env vars can duoc dat: `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, `VITE_APP_COMPANY_NAME`
+
+### Stack artifact sau session 2
+
+- Sprint UI-1 design system — `src/styles.css`, `src/lib/labels.ts` — CLOSED
+- Shared primitives — `src/components/ui/LoadingSpinner.tsx`, `EmptyState.tsx` — CLOSED
+- P2.4 Documents — `src/hooks/useDocuments.ts`, `src/pages/DocumentsPage.tsx` — CLOSED
+- Phase 3 Reports — `src/pages/ReportsPage.tsx`, `src/utils/exportCsv.ts` — CLOSED
+- Light/Dark mode — `src/lib/theme.tsx`, toggle trong `Sidebar.tsx` — CLOSED
+
+### Known tech debt / viec tiep theo
+
+1. **FinancePage.tsx** — van con local `costStatusLabels`/`costStatusTones` maps thay vi dung `src/lib/labels.ts`. Can migrate.
+2. **Playwright smoke tests** — co the bi drift sau UI-1 (dashboard label thay doi). Can chay lai `npm run test:ui` va update assertions.
+3. **Pagination / search** — cac trang list (Costs, Payments, Documents) chua co pagination khi data nhieu.
+4. **Mobile Documents upload** — file picker UX tren iOS Safari co the khac; can test tren thiet bi that.
+5. **Phase 4 Production Hardening** — RLS day du hon, error boundaries, audit log, Netlify deploy guide.
+6. **Phase 5 Desktop Packaging** — Tauri Windows installer.
+
+### Next governed move
+
+Phase 4 Production Hardening hoac Phase 5 Desktop Packaging — can user approval de xac dinh thu tu.
+
+---
 
 ## Tranche P2.4 — Documents (CLOSED)
 
