@@ -2,6 +2,33 @@
 
 Cap nhat: 2026-05-05 (UI refresh CLOSED / P2.2-P2.3 clean)
 
+## Codex IA refresh — Grouped modules navigation
+
+**Thuc hien boi:** Codex, 2026-05-05
+**Risk:** R1 (navigation information architecture)
+**Status:** CLOSED
+
+### Da sua
+
+- Gom desktop sidebar thanh cac phan he:
+  - Dieu hanh
+  - Cong trinh
+  - Vat tu
+  - Nhan su
+  - Quan tri
+- Doi nhan trong phan he Vat tu tu `Vật tư` thanh `Danh mục vật tư` de ro vai tro.
+- Mobile bottom nav van giu 5 phan he chinh, nhung active state nay hieu route con:
+  - `/cham-cong` active `Nhân sự`
+  - `/yeu-cau-vat-tu`, `/don-mua-vat-tu`, `/nha-cung-cap` active `Vật tư`
+  - `/tai-lieu` active `Công trình`
+- Them style group label/spacing cho sidebar; sidebar nav co scroll rieng khi man hinh thap.
+
+### Verification
+
+- `npm run build` PASS.
+- `npm run test:ui -- --reporter=line` PASS: 30/30.
+- Visual smoke PASS tren desktop sidebar grouped va mobile route con.
+
 ## Codex design refresh — Professional command workspace
 
 **Thuc hien boi:** Codex, 2026-05-05

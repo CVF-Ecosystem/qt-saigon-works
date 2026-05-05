@@ -26,19 +26,47 @@ interface NavItem {
   end?: boolean;
 }
 
-const NAV_ITEMS: NavItem[] = [
-  { to: "/", icon: LayoutDashboard, label: "Tổng quan", end: true },
-  { to: "/khach-hang", icon: UserCircle, label: "Khách hàng" },
-  { to: "/cong-trinh", icon: Building2, label: "Công trình" },
-  { to: "/tai-chinh", icon: Wallet, label: "Tài chính" },
-  { to: "/nhan-su", icon: Users, label: "Nhân sự" },
-  { to: "/cham-cong", icon: ClipboardList, label: "Chấm công" },
-  { to: "/nha-cung-cap", icon: Truck, label: "Nhà cung cấp" },
-  { to: "/vat-tu", icon: Package, label: "Vật tư" },
-  { to: "/yeu-cau-vat-tu", icon: ClipboardList, label: "Yêu cầu vật tư" },
-  { to: "/don-mua-vat-tu", icon: ShoppingCart, label: "Đơn mua vật tư" },
-  { to: "/tai-lieu", icon: FileText, label: "Tài liệu" },
-  { to: "/cau-hinh", icon: Settings, label: "Cấu hình" },
+interface NavGroup {
+  label: string;
+  items: NavItem[];
+}
+
+const NAV_GROUPS: NavGroup[] = [
+  {
+    label: "Điều hành",
+    items: [{ to: "/", icon: LayoutDashboard, label: "Tổng quan", end: true }],
+  },
+  {
+    label: "Công trình",
+    items: [
+      { to: "/cong-trinh", icon: Building2, label: "Công trình" },
+      { to: "/tai-chinh", icon: Wallet, label: "Tài chính" },
+      { to: "/tai-lieu", icon: FileText, label: "Tài liệu" },
+    ],
+  },
+  {
+    label: "Vật tư",
+    items: [
+      { to: "/vat-tu", icon: Package, label: "Danh mục vật tư" },
+      { to: "/yeu-cau-vat-tu", icon: ClipboardList, label: "Yêu cầu vật tư" },
+      { to: "/don-mua-vat-tu", icon: ShoppingCart, label: "Đơn mua vật tư" },
+      { to: "/nha-cung-cap", icon: Truck, label: "Nhà cung cấp" },
+    ],
+  },
+  {
+    label: "Nhân sự",
+    items: [
+      { to: "/nhan-su", icon: Users, label: "Nhân viên" },
+      { to: "/cham-cong", icon: ClipboardList, label: "Chấm công" },
+    ],
+  },
+  {
+    label: "Quản trị",
+    items: [
+      { to: "/khach-hang", icon: UserCircle, label: "Khách hàng" },
+      { to: "/cau-hinh", icon: Settings, label: "Cấu hình" },
+    ],
+  },
 ];
 
 export function Sidebar() {
@@ -61,25 +89,30 @@ export function Sidebar() {
       </div>
 
       <nav className="sidebar-nav" aria-label="Main navigation">
-        <ul>
-          {NAV_ITEMS.map(({ to, icon: Icon, label, end }) => (
-            <li key={to}>
-              <NavLink
-                to={to}
-                end={end}
-                className={({ isActive }) =>
-                  [
-                    "sidebar-link",
-                    isActive ? "sidebar-link-active" : "sidebar-link-idle",
-                  ].join(" ")
-                }
-              >
-                <Icon size={20} aria-hidden="true" />
-                <span>{label}</span>
-              </NavLink>
-            </li>
-          ))}
-        </ul>
+        {NAV_GROUPS.map((group) => (
+          <section className="sidebar-group" key={group.label}>
+            <h2 className="sidebar-group-label">{group.label}</h2>
+            <ul>
+              {group.items.map(({ to, icon: Icon, label, end }) => (
+                <li key={to}>
+                  <NavLink
+                    to={to}
+                    end={end}
+                    className={({ isActive }) =>
+                      [
+                        "sidebar-link",
+                        isActive ? "sidebar-link-active" : "sidebar-link-idle",
+                      ].join(" ")
+                    }
+                  >
+                    <Icon size={20} aria-hidden="true" />
+                    <span>{label}</span>
+                  </NavLink>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
       </nav>
 
       <div className="sidebar-footer">

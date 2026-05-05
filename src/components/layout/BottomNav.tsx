@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   LayoutDashboard,
   Building2,
@@ -14,17 +14,20 @@ interface BottomNavItem {
   icon: LucideIcon;
   label: string;
   end?: boolean;
+  match: string[];
 }
 
 const BOTTOM_ITEMS: BottomNavItem[] = [
-  { to: "/", icon: LayoutDashboard, label: "Tổng quan", end: true },
-  { to: "/cong-trinh", icon: Building2, label: "Công trình" },
-  { to: "/nhan-su", icon: Users, label: "Nhân sự" },
-  { to: "/vat-tu", icon: Package, label: "Vật tư" },
-  { to: "/tai-chinh", icon: Wallet, label: "Tài chính" },
+  { to: "/", icon: LayoutDashboard, label: "Tổng quan", end: true, match: ["/"] },
+  { to: "/cong-trinh", icon: Building2, label: "Công trình", match: ["/cong-trinh", "/tai-lieu"] },
+  { to: "/nhan-su", icon: Users, label: "Nhân sự", match: ["/nhan-su", "/cham-cong"] },
+  { to: "/vat-tu", icon: Package, label: "Vật tư", match: ["/vat-tu", "/yeu-cau-vat-tu", "/don-mua-vat-tu", "/nha-cung-cap"] },
+  { to: "/tai-chinh", icon: Wallet, label: "Tài chính", match: ["/tai-chinh"] },
 ];
 
 export function BottomNav() {
+  const location = useLocation();
+
   return (
     <nav
       className="bottom-nav"
@@ -32,31 +35,31 @@ export function BottomNav() {
       style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
     >
       <ul>
-        {BOTTOM_ITEMS.map(({ to, icon: Icon, label, end }) => (
-          <li key={to}>
-            <NavLink
-              to={to}
-              end={end}
-              className={({ isActive }) =>
-                [
+        {BOTTOM_ITEMS.map(({ to, icon: Icon, label, match }) => {
+          const isActive = match.some((path) =>
+            path === "/" ? location.pathname === "/" : location.pathname.startsWith(path)
+          );
+
+          return (
+            <li key={to}>
+              <Link
+                to={to}
+                className={[
                   "bottom-nav-link",
                   isActive ? "bottom-nav-link-active" : "bottom-nav-link-idle",
-                ].join(" ")
-              }
-            >
-              {({ isActive }) => (
-                <>
-                  <Icon
-                    size={22}
-                    aria-hidden="true"
-                    className={isActive ? "bottom-nav-icon-active" : "bottom-nav-icon-idle"}
-                  />
-                  <span>{label}</span>
-                </>
-              )}
-            </NavLink>
-          </li>
-        ))}
+                ].join(" ")}
+                aria-current={isActive ? "page" : undefined}
+              >
+                <Icon
+                  size={22}
+                  aria-hidden="true"
+                  className={isActive ? "bottom-nav-icon-active" : "bottom-nav-icon-idle"}
+                />
+                <span>{label}</span>
+              </Link>
+            </li>
+          );
+        })}
       </ul>
     </nav>
   );
